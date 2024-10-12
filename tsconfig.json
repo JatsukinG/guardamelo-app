@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      // constants
+      "@constants": ["src/constants/index"],
+      // contexts
+      "@contexts/*": ["src/contexts/*"],
+      // Atoms
+      "@atoms": ["src/atoms/index"],
+      // Components
+      "@components": ["src/components/index"],
+      // Hooks
+      "@hooks": ["src/hooks/index"],
+      // Layouts
+      "@auth-lay/*": ["src/layouts/auth/*"],
+      "@dash/*": ["src/layouts/dashboard/*"],
+      // Snippets
+      "@snippets/*": ["src/snippets/*"],
+      // GraphQL
+      "@gql": ["src/gql/index"],
+      "@types": ["src/gql/graphql"],
+      // Modules
+      "@auth/*": ["src/modules/auth/*"],
+      "@main/*": ["src/modules/main/*"],
+      "@orders/*": ["src/modules/orders/*"],
+      "@products/*": ["src/modules/products/*"],
+      "@profile/*": ["src/modules/profile/*"],
+      "@shopping-cart/*": ["src/modules/shopping-cart/*"],
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
