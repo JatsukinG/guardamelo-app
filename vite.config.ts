@@ -27,6 +27,7 @@ export default defineConfig({
       '@types': '/src/gql/graphql',
       // Modules
       '@auth': '/src/modules/auth',
+      '@home': '/src/modules/home',
     },
   },
   server: {

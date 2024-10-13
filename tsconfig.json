@@ -42,11 +42,7 @@
       "@types": ["src/gql/graphql"],
       // Modules
       "@auth/*": ["src/modules/auth/*"],
-      "@main/*": ["src/modules/main/*"],
-      "@orders/*": ["src/modules/orders/*"],
-      "@products/*": ["src/modules/products/*"],
-      "@profile/*": ["src/modules/profile/*"],
-      "@shopping-cart/*": ["src/modules/shopping-cart/*"],
+      "@home/*": ["src/modules/home/*"],
     }
   },
   "include": ["src"],

@@ -8,6 +8,16 @@ export default {
         flowbite.content()
     ],
     theme: {
+        container: {
+            center: true,
+            padding: {
+                DEFAULT: '.5rem',
+                sm: '2rem',
+                lg: '5rem',
+                xl: '8rem',
+                '2xl': '12rem',
+            },
+        },
         extend: {},
     },
     plugins: [
