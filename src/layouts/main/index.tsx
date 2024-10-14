@@ -4,7 +4,7 @@ import MainSidebar from '@/layouts/main/components/sidebar'
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-      <main className="relative bg-gray-100 h-screen flex">
+      <main className="relative bg-purple-50 h-screen flex">
         <MainSidebar/>
         <div className="flex-1 flex flex-col">
           <MainNavbar/>

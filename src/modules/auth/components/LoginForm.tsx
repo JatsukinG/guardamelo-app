@@ -49,7 +49,7 @@ const LoginForm = () => {
               <Checkbox color="dark" id="remember-me"/>
               <Label htmlFor="remember-me">Recuerdame</Label>
             </div>
-            <Button color="dark" type="submit">
+            <Button color="purple" type="submit">
               Ingresar
             </Button>
             <div>
