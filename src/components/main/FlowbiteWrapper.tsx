@@ -7,7 +7,7 @@ const FlowbiteWrapper: FC<PropsWithChildren> = ({ children }) => {
   const dark = localStorage.getItem('theme') === 'dark'
 
   return (
-      <Flowbite theme={{ dark, theme }}>
+      <Flowbite theme={{ mode: dark ? 'dark' : 'light', theme }}>
         <PersistFlowbiteThemeToLocalStorage/>
         {children}
       </Flowbite>
