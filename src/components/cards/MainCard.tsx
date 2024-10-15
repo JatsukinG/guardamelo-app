@@ -7,10 +7,12 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const MainCard: FC<PropsWithChildren<Props>> = ({ className, children, ...rest }) => {
   return (
-      <div className={clsx([
-        'bg-white rounded-lg shadow-md p-4 md:p-8',
-        className,
-      ])}
+      <div
+          {...rest}
+          className={clsx([
+            'bg-white rounded-lg shadow-md p-4 md:p-8',
+            className,
+          ])}
       >
         {children}
       </div>
