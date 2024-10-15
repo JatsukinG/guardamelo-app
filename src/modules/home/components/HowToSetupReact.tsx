@@ -1,5 +1,6 @@
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import MainCard from '@/components/cards/MainCard'
 
 const HowToSetupReact = () => {
   const steps = [
@@ -54,7 +55,7 @@ const HowToSetupReact = () => {
   ]
 
   return (
-      <div className="bg-white shadow-md rounded-lg p-4 md:p-8">
+      <MainCard>
         <div className="max-w-3xl">
           <h1 className="text-gray-600 text-3xl font-bold mb-8">How to Create a React Project</h1>
           {steps.map((step, index) => (
@@ -67,7 +68,7 @@ const HowToSetupReact = () => {
               </div>
           ))}
         </div>
-      </div>
+      </MainCard>
   )
 }
 
