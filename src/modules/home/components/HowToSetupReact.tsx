@@ -54,20 +54,18 @@ const HowToSetupReact = () => {
   ]
 
   return (
-      <div className="p-4">
-        <div className="bg-white rounded-lg p-4 md:p-8">
-          <div className="max-w-3xl">
-            <h1 className="text-gray-600 text-3xl font-bold mb-8">How to Create a React Project</h1>
-            {steps.map((step, index) => (
-                <div key={index} className="mb-12">
-                  <h2 className="text-gray-500 text-xl font-semibold mb-2">{step.title}</h2>
-                  <p className="text-gray-400 mb-2">{step.description}</p>
-                  <SyntaxHighlighter language="bash" style={atomOneDark} customStyle={{ borderRadius: '10px' }}>
-                    {step.command}
-                  </SyntaxHighlighter>
-                </div>
-            ))}
-          </div>
+      <div className="bg-white shadow-md rounded-lg p-4 md:p-8">
+        <div className="max-w-3xl">
+          <h1 className="text-gray-600 text-3xl font-bold mb-8">How to Create a React Project</h1>
+          {steps.map((step, index) => (
+              <div key={index} className="mb-12">
+                <h2 className="text-gray-500 text-xl font-semibold mb-2">{step.title}</h2>
+                <p className="text-gray-400 mb-2">{step.description}</p>
+                <SyntaxHighlighter language="bash" style={atomOneDark} customStyle={{ borderRadius: '10px' }}>
+                  {step.command}
+                </SyntaxHighlighter>
+              </div>
+          ))}
         </div>
       </div>
   )

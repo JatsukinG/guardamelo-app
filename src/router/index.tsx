@@ -4,6 +4,7 @@ import AuthLayout from '@/layouts/auth'
 import MainLayout from '@/layouts/main'
 import HomePage from '@/pages/main/home'
 import LoginPage from '@/pages/auth/login'
+import ProjectsPage from '@/pages/projects'
 
 const router = createBrowserRouter([
   {
@@ -27,10 +28,16 @@ const router = createBrowserRouter([
           <Outlet/>
         </MainLayout>
     ),
-    children: [{
-      path: '',
-      element: <HomePage/>,
-    }],
+    children: [
+      {
+        path: '',
+        element: <HomePage/>,
+      },
+      {
+        path: '/projects',
+        element: <ProjectsPage/>,
+      },
+    ],
   },
   {
     path: '*',

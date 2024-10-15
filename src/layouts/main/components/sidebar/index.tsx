@@ -2,7 +2,7 @@ import type { IconType } from 'react-icons'
 import { FaHome } from 'react-icons/fa'
 import { Sidebar } from 'flowbite-react'
 import { TbLogin2 } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { IoIosSettings } from 'react-icons/io'
 import { MdLibraryBooks } from 'react-icons/md'
 import { GoFileDirectoryFill } from 'react-icons/go'
@@ -22,22 +22,23 @@ const items: Item[] = [
   {
     name: 'Mis proyectos',
     icon: GoFileDirectoryFill,
-    to: '/',
+    to: '/projects',
   },
   {
     name: 'Recursos',
     icon: MdLibraryBooks,
-    to: '/',
+    to: '/resources',
   },
   {
     name: 'Configuración',
     icon: IoIosSettings,
-    to: '/',
+    to: '/settings',
   },
 ]
 
 const MainSidebar = () => {
   const navigate = useNavigate()
+  const location = useLocation()
 
   return (
       <Sidebar>
@@ -50,7 +51,7 @@ const MainSidebar = () => {
                       key={item.name}
                       href={item.to}
                       icon={item.icon}
-                      active={item.name === 'Inicio'}
+                      active={item.to === location.pathname}
                   >
                     {item.name}
                   </Sidebar.Item>
