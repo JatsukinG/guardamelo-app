@@ -36,6 +36,24 @@ const groups = [
         type: 'syntax',
         value: 'docker logs \<container-id\>  -f',
       },
+      {
+        id: 3,
+        title: 'Make migrations',
+        type: 'syntax',
+        value: 'docker compose exec web python manage.py makemigrations',
+      },
+      {
+        id: 4,
+        title: 'Run migrations',
+        type: 'syntax',
+        value: 'docker compose exec web python manage.py migrate',
+      },
+      {
+        id: 5,
+        title: 'Create Super User',
+        type: 'syntax',
+        value: 'docker compose exec web python manage.py createsuperuser',
+      },
     ],
   },
 ]
