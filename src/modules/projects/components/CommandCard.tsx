@@ -27,7 +27,7 @@ const CommandCard: FC<Props> = ({ className, value }) => {
   return (
       <div
           className={clsx([
-            'flex items-center bg-gray-100 rounded-lg overflow-hidden',
+            'flex items-center bg-gray-200 rounded-lg overflow-hidden',
             className,
           ])}
       >
@@ -35,7 +35,7 @@ const CommandCard: FC<Props> = ({ className, value }) => {
           <SyntaxHighlighter
               language="javascript"
               style={atomOneLight}
-              customStyle={{background: '#f3f4f6'}}
+              customStyle={{background: '#e5e7eb'}}
           >
             {value}
           </SyntaxHighlighter>

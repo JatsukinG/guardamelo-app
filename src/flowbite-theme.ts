@@ -54,7 +54,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
     field: {
       input: {
         colors: {
-          gray: 'border-none bg-white shadow-md text-gray-900 focus:ring-purple-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-purple-500'
+          gray: 'border-none bg-white/50 shadow-md text-gray-900 focus:ring-purple-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-purple-500'
         }
       }
     }

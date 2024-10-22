@@ -5,7 +5,7 @@ import DashboardBreadcrumb from '@/layouts/main/components/DashboardBreadcrumb'
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-      <main className="relative bg-purple-50 h-screen flex">
+      <main className="relative bg-purple-100 h-screen flex">
         <MainSidebar/>
         <div className="flex-1 flex flex-col">
           <MainNavbar/>
