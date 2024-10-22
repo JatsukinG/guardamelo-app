@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { IoIosSettings } from 'react-icons/io'
 import { MdLibraryBooks } from 'react-icons/md'
 import { GoFileDirectoryFill } from 'react-icons/go'
+import SidebarLink from '@/layouts/main/components/sidebar/SidebarLink'
 
 interface Item {
   name: string
@@ -47,14 +48,14 @@ const MainSidebar = () => {
           <Sidebar.ItemGroup>
             {
               items.map(item => (
-                  <Sidebar.Item
+                  <SidebarLink
                       key={item.name}
                       href={item.to}
                       icon={item.icon}
                       active={item.to === location.pathname}
                   >
                     {item.name}
-                  </Sidebar.Item>
+                  </SidebarLink>
               ))
             }
           </Sidebar.ItemGroup>

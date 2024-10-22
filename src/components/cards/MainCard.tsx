@@ -10,7 +10,7 @@ const MainCard: FC<PropsWithChildren<Props>> = ({ className, children, ...rest }
       <div
           {...rest}
           className={clsx([
-            'bg-white rounded-lg shadow-md p-4 md:p-8',
+            'bg-white/60 rounded-lg shadow-md p-4 md:p-8',
             className,
           ])}
       >

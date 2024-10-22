@@ -54,7 +54,7 @@ const LoginForm = () => {
             </Button>
             <div>
               <p className="inline">No tienes cuenta?.&nbsp;</p>
-              <a href="#" className="text-blue-500 underline">regístrate</a>
+              <a href="#" className="link">regístrate</a>
             </div>
           </Form>
         </Formik>
