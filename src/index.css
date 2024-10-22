@@ -15,8 +15,12 @@
 }
 
 @layer components {
+    p {
+        @apply text-gray-600
+    }
+
     h2 {
-        @apply text-xl font-semibold text-gray-700
+        @apply text-xl font-bold text-gray-700
     }
 
     h3 {

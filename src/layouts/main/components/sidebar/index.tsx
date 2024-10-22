@@ -52,7 +52,7 @@ const MainSidebar = () => {
                       key={item.name}
                       href={item.to}
                       icon={item.icon}
-                      active={item.to === location.pathname}
+                      active={item.to === '/' ? location.pathname === '/' : location.pathname.includes(item.to)}
                   >
                     {item.name}
                   </SidebarLink>
