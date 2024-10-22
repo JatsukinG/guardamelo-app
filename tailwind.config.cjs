@@ -18,7 +18,13 @@ export default {
                 '2xl': '12rem',
             },
         },
-        extend: {},
+        extend: {
+            fontFamily: {
+                roboto: ['Roboto', 'sans-serif'],
+                lato: ['Lato', 'sans-serif'],
+                nunito: ['Nunito', 'sans-serif'],
+            },
+        },
     },
     plugins: [
         flowbite.plugin()

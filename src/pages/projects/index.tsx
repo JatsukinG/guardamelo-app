@@ -11,7 +11,7 @@ const ProjectsPage = () => {
             <h2 className="mb-12">
               Mis proyectos
             </h2>
-            <Button color="purple" size="xs">
+            <Button color="purple" size="sm">
               <IoMdAddCircle size={18} className="me-2"/>
               Agregar proyecto
             </Button>

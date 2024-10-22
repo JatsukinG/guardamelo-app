@@ -23,7 +23,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
     },
     item: {
       base: clsx([
-        'flex items-center gap-2 rounded-xl pl-4 pr-2 py-2 text-base font-medium text-gray-400',
+        'flex items-center gap-2 rounded-xl pl-4 pr-2 py-1.5 text-base font-medium text-gray-400',
         'hover:bg-purple-100 dark:text-white dark:hover:bg-gray-700 duration-300',
       ]),
       active: clsx([
