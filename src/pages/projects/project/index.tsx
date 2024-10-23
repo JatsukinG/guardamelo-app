@@ -21,6 +21,24 @@ const groups = [
     ],
   },
   {
+    id: 1,
+    title: 'Prod docker containers',
+    commands: [
+      {
+        id: 1,
+        title: 'Uploader',
+        type: 'syntax',
+        value: 'ssh -i ~/.ssh/n1.pem ubuntu@34.221.13.245',
+      },
+      {
+        id: 2,
+        title: 'Api',
+        type: 'syntax',
+        value: 'ssh -i ~/.ssh/n1.pem ubuntu@54.213.60.8',
+      },
+    ],
+  },
+  {
     id: 2,
     title: 'Local docker commands',
     commands: [
@@ -68,12 +86,12 @@ const ProjectPage = () => {
           <p className="font-medium">
             Lista de comandos utilizados en todos los proyectos que contiene n1, desde backend hasta frontend.
           </p>
-          <ul className="mt-8 max-w-xl list-none divide-y">
+          <ul className="mt-8 list-none xl:columns-2 space-y-4 gap-4">
             {
               groups.map(group => (
-                  <li key={group.id} className="py-8">
+                  <li key={group.id} className="w-full bg-white/60 border rounded-2xl p-8 break-inside-avoid">
                     <h4>{group.title}</h4>
-                    <div className="border-l-2 px-4 mt-8">
+                    <div className="px-4 mt-8">
                       {
                         group.commands.map(command => (
                             <div key={command.id} className="py-3 space-y-2">
