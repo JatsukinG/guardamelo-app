@@ -96,16 +96,16 @@ const ProjectPage = () => {
               Agregar grupo
             </Button>
           </div>
-          <ul className="mt-8 list-none xl:columns-2 space-y-4 gap-4">
+          <ul className="mt-8 list-none space-y-4 gap-4">
             {
               groups.map(group => (
                   <li key={group.id}
-                      className="relative w-full bg-white/60 border rounded-2xl p-8 group break-inside-avoid">
+                      className="relative w-full bg-white/60 border rounded-2xl p-8 group">
                     <h4>{group.title}</h4>
-                    <div className="px-4 mt-8">
+                    <div className="px-4 mt-8 grid grid-cols-2 gap-8">
                       {
                         group.commands.map(command => (
-                            <div key={command.id} className="py-3 space-y-2">
+                            <div key={command.id} className="space-y-2">
                               <p className="text-gray-600 font-bold text-sm">
                                 {command.title}
                               </p>

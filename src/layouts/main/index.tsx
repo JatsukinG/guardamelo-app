@@ -12,7 +12,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
           <div className="py-2 px-4">
             <DashboardBreadcrumb/>
           </div>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto max-w-full">
             {children}
           </div>
         </div>
