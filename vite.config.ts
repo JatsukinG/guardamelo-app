@@ -28,6 +28,8 @@ export default defineConfig({
       // Modules
       '@auth': '/src/modules/auth',
       '@home': '/src/modules/home',
+      '@projects': '/src/modules/projects',
+      '@resources': '/src/modules/resources',
     },
   },
   server: {

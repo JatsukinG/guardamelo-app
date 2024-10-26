@@ -5,7 +5,9 @@ import MainLayout from '@/layouts/main'
 import HomePage from '@/pages/main/home'
 import LoginPage from '@/pages/auth/login'
 import ProjectsPage from '@/pages/projects'
+import ResourcesPage from '@/pages/resources'
 import ProjectPage from '@/pages/projects/project'
+import ResourcePage from '@/pages/resources/resource'
 
 const router = createBrowserRouter([
   {
@@ -44,6 +46,19 @@ const router = createBrowserRouter([
           {
             path: ':id',
             element: <ProjectPage/>,
+          },
+        ],
+      },
+      {
+        path: 'resources',
+        children: [
+          {
+            path: '',
+            element: <ResourcesPage/>,
+          },
+          {
+            path: ':resourceId',
+            element: <ResourcePage/>,
           },
         ],
       },
