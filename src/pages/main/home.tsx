@@ -46,9 +46,9 @@ const HomePage = () => {
               cardsData.map(cardData => (
                   <div
                       key={cardData.id}
-                      className="p-4 rounded-lg bg-gradient-to-br from-purple-100 to-orange-100"
+                      className="p-4 rounded-lg bg-gradient-to-br from-purple-100 to-orange-100 group"
                   >
-                    <div className="bg-gradient-to-br from-orange-800 to-purple-500 w-fit rounded-lg p-2">
+                    <div className="bg-gradient-to-br from-orange-800 to-purple-500 w-fit rounded-lg p-2 group-hover:scale-110 duration-300">
                       <span className="text-4xl text-white">
                         {cardData.icon}
                       </span>
