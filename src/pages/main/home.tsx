@@ -41,7 +41,7 @@ const HomePage = () => {
   return (
       <div className="px-4">
         <MainCard>
-          <div className="mb-12 grid  md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div className="mb-12 grid md:grid-cols-2 xl:grid-cols-4 gap-4">
             {
               cardsData.map(cardData => (
                   <div
