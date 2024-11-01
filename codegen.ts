@@ -1,6 +1,6 @@
-import { type CodegenConfig } from '@graphql-codegen/cli'
-
-const config: CodegenConfig = {
+// codegen.js
+/** @type {import('@graphql-codegen/cli').CodegenConfig} */
+const config = {
   schema: './schema.graphql',
   documents: ['src/**/*.ts'],
   generates: {
@@ -9,6 +9,6 @@ const config: CodegenConfig = {
     },
   },
   hooks: { afterAllFileWrite: ['prettier --write'] },
-}
+};
 
-export default config
+module.exports = config;
