@@ -4,8 +4,29 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
-type CreateExample {
-  success: Boolean
+input ChangePasswordInput {
+  currentPassword: String!
+  newPassword: String!
+  clientMutationId: String
+}
+
+type ChangePasswordPayload {
+  user: UserNode
+  clientMutationId: String
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  phone: String
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type CreateUserPayload {
+  user: UserNode
+  clientMutationId: String
 }
 
 """
@@ -15,14 +36,34 @@ value as specified by
 """
 scalar DateTime
 
+"""
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar
+
 type Mutation {
-  createExample(name: String!): CreateExample
+  """Obtain JSON Web Token mutation"""
+  tokenAuth(username: String!, password: String!): ObtainJSONWebToken
+  verifyToken(token: String): Verify
+  refreshToken(token: String): Refresh
+  createUser(input: CreateUserInput!): CreateUserPayload
+  updateUser(input: UpdateMeInput!): UpdateMePayload
+  changePassword(input: ChangePasswordInput!): ChangePasswordPayload
 }
 
 """An object with an ID"""
 interface Node {
   """The ID of the object"""
   id: ID!
+}
+
+"""Obtain JSON Web Token mutation"""
+type ObtainJSONWebToken {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  token: String!
 }
 
 """
@@ -49,6 +90,7 @@ type ProjectNode implements Node {
   description: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  subprojects(offset: Int, before: String, after: String, first: Int, last: Int): SubProjectNodeConnection!
 }
 
 type ProjectNodeConnection {
@@ -68,11 +110,160 @@ type ProjectNodeEdge {
   cursor: String!
 }
 
+"""An enumeration."""
+enum ProjectsSnippetTypeChoices {
+  """Syntax"""
+  SYNTAX
+
+  """Command"""
+  COMMAND
+}
+
 type Query {
   project(
     """The ID of the object"""
     id: ID!
   ): ProjectNode
   projects(offset: Int, before: String, after: String, first: Int, last: Int): ProjectNodeConnection
+  subproject(
+    """The ID of the object"""
+    id: ID!
+  ): SubProjectNode
+  subprojects(offset: Int, before: String, after: String, first: Int, last: Int): SubProjectNodeConnection
+  subprojectGroup(
+    """The ID of the object"""
+    id: ID!
+  ): SubProjectGroupNode
+  subprojectGroups(offset: Int, before: String, after: String, first: Int, last: Int): SubProjectGroupNodeConnection
+  snippet(
+    """The ID of the object"""
+    id: ID!
+  ): SnippetNode
+  snippets(offset: Int, before: String, after: String, first: Int, last: Int): SnippetNodeConnection
+  me: UserNode
+}
+
+type Refresh {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  token: String!
+}
+
+type SnippetNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  subprojectGroup: SubProjectGroupNode!
+  title: String!
+  value: String!
+  description: String
+  type: ProjectsSnippetTypeChoices!
+  fileName: String
+  createdAt: DateTime!
+}
+
+type SnippetNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [SnippetNodeEdge]!
+}
+
+"""A Relay edge containing a `SnippetNode` and its cursor."""
+type SnippetNodeEdge {
+  """The item at the end of the edge"""
+  node: SnippetNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type SubProjectGroupNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  subproject: SubProjectNode!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  snippets(offset: Int, before: String, after: String, first: Int, last: Int): SnippetNodeConnection!
+}
+
+type SubProjectGroupNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [SubProjectGroupNodeEdge]!
+}
+
+"""A Relay edge containing a `SubProjectGroupNode` and its cursor."""
+type SubProjectGroupNodeEdge {
+  """The item at the end of the edge"""
+  node: SubProjectGroupNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type SubProjectNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  project: ProjectNode!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  subprojectGroups(offset: Int, before: String, after: String, first: Int, last: Int): SubProjectGroupNodeConnection!
+}
+
+type SubProjectNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [SubProjectNodeEdge]!
+}
+
+"""A Relay edge containing a `SubProjectNode` and its cursor."""
+type SubProjectNodeEdge {
+  """The item at the end of the edge"""
+  node: SubProjectNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input UpdateMeInput {
+  firstName: String!
+  lastName: String!
+  phone: String
+  email: String!
+  clientMutationId: String
+}
+
+type UpdateMePayload {
+  user: UserNode
+  clientMutationId: String
+}
+
+type UserNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  password: String!
+  lastLogin: DateTime
+
+  """
+  Designates that this user has all permissions without explicitly assigning them.
+  """
+  isSuperuser: Boolean!
+  firstName: String!
+  lastName: String!
+  phone: String
+  email: String!
+  isStaff: Boolean!
+  isActive: Boolean!
+}
+
+type Verify {
+  payload: GenericScalar!
 }
 
