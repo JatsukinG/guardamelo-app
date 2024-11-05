@@ -1,41 +1,31 @@
 import { MdFolder } from 'react-icons/md'
+import { useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
+import ProjectsQuery from '@projects/queries/ProjectsQuery'
 
-interface Project {
-  id: string
-  name: string
-}
-
-const projects: Project[] = [
-  {
-    id: 'grupon1',
-    name: 'Grupo N1',
-  }, {
-    id: 'premiummarketplace',
-    name: 'Premium Marketplace',
-  },
-]
 
 const ProjectsList = () => {
   const navigate = useNavigate()
+  const { data, loading } = useQuery(ProjectsQuery)
 
   return (
       <div>
         <ul className="list-none divide-y">
           {
-            projects.map(project => (
-                <li key={project.id} className="py-2">
+            data?.projects?.edges.map(project => (
+                <li key={project?.node?.id} className="py-2">
                   <button
                       className="link flex items-center gap-2"
-                      onClick={() => navigate(`/projects/${project.id}`)}
+                      onClick={() => navigate(`/projects/${project?.node?.id}`)}
                   >
                     <MdFolder/>
-                    {project.name}
+                    {project?.node?.name}
                   </button>
                 </li>
             ))
           }
         </ul>
+        {loading && <p>Cargando...</p>}
       </div>
   )
 }
