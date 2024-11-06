@@ -1,3 +1,4 @@
+import NiceModal from '@ebay/nice-modal-react'
 import { ApolloProvider } from '@apollo/client'
 import { RouterProvider } from 'react-router-dom'
 import client from '@/client'
@@ -8,7 +9,9 @@ function App() {
   return (
       <FlowbiteWrapper>
         <ApolloProvider client={client}>
-          <RouterProvider router={router}/>
+          <NiceModal.Provider>
+            <RouterProvider router={router}/>
+          </NiceModal.Provider>
         </ApolloProvider>
       </FlowbiteWrapper>
   )
