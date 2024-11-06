@@ -53,6 +53,18 @@ export type ChangePasswordPayload = {
   user?: Maybe<UserNode>;
 };
 
+export type CreateProjectInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+};
+
+export type CreateProjectPayload = {
+  __typename?: "CreateProjectPayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  project?: Maybe<ProjectNode>;
+};
+
 export type CreateUserInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   email: Scalars["String"]["input"];
@@ -99,16 +111,22 @@ export type DocumentNodeEdge = {
 export type Mutation = {
   __typename?: "Mutation";
   changePassword?: Maybe<ChangePasswordPayload>;
+  createProject?: Maybe<CreateProjectPayload>;
   createUser?: Maybe<CreateUserPayload>;
   refreshToken?: Maybe<Refresh>;
   /** Obtain JSON Web Token mutation */
   tokenAuth?: Maybe<ObtainJsonWebToken>;
+  updateProject?: Maybe<UpdateProjectPayload>;
   updateUser?: Maybe<UpdateMePayload>;
   verifyToken?: Maybe<Verify>;
 };
 
 export type MutationChangePasswordArgs = {
   input: ChangePasswordInput;
+};
+
+export type MutationCreateProjectArgs = {
+  input: CreateProjectInput;
 };
 
 export type MutationCreateUserArgs = {
@@ -122,6 +140,10 @@ export type MutationRefreshTokenArgs = {
 export type MutationTokenAuthArgs = {
   email: Scalars["String"]["input"];
   password: Scalars["String"]["input"];
+};
+
+export type MutationUpdateProjectArgs = {
+  input: UpdateProjectInput;
 };
 
 export type MutationUpdateUserArgs = {
@@ -168,6 +190,7 @@ export type ProjectNode = Node & {
   id: Scalars["ID"]["output"];
   name: Scalars["String"]["output"];
   updatedAt: Scalars["DateTime"]["output"];
+  user: UserNode;
 };
 
 export type ProjectNodeDocumentsArgs = {
@@ -249,6 +272,19 @@ export type UpdateMePayload = {
   user?: Maybe<UserNode>;
 };
 
+export type UpdateProjectInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  name: Scalars["String"]["input"];
+};
+
+export type UpdateProjectPayload = {
+  __typename?: "UpdateProjectPayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  project?: Maybe<ProjectNode>;
+};
+
 export type UserNode = Node & {
   __typename?: "UserNode";
   email: Scalars["String"]["output"];
@@ -263,11 +299,61 @@ export type UserNode = Node & {
   lastName: Scalars["String"]["output"];
   password: Scalars["String"]["output"];
   phone?: Maybe<Scalars["String"]["output"]>;
+  projects: ProjectNodeConnection;
+};
+
+export type UserNodeProjectsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type Verify = {
   __typename?: "Verify";
   payload: Scalars["GenericScalar"]["output"];
+};
+
+export type ProjectFragment = {
+  __typename?: "ProjectNode";
+  id: string;
+  name: string;
+  description?: string | null;
+  createdAt: any;
+  updatedAt: any;
+} & { " $fragmentName"?: "ProjectFragment" };
+
+export type CreateProjectMutationVariables = Exact<{
+  input: CreateProjectInput;
+}>;
+
+export type CreateProjectMutation = {
+  __typename?: "Mutation";
+  createProject?: {
+    __typename?: "CreateProjectPayload";
+    project?:
+      | ({ __typename?: "ProjectNode" } & {
+          " $fragmentRefs"?: { ProjectFragment: ProjectFragment };
+        })
+      | null;
+  } | null;
+};
+
+export type UpdateProjectMutationVariables = Exact<{
+  input: UpdateProjectInput;
+}>;
+
+export type UpdateProjectMutation = {
+  __typename?: "Mutation";
+  updateProject?: {
+    __typename?: "UpdateProjectPayload";
+    project?:
+      | ({ __typename?: "ProjectNode" } & {
+          " $fragmentRefs"?: { ProjectFragment: ProjectFragment };
+        })
+      | null;
+  } | null;
 };
 
 export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
@@ -278,16 +364,206 @@ export type ProjectsQuery = {
     __typename?: "ProjectNodeConnection";
     edges: Array<{
       __typename?: "ProjectNodeEdge";
-      node?: {
-        __typename?: "ProjectNode";
-        id: string;
-        name: string;
-        description?: string | null;
-      } | null;
+      node?:
+        | ({ __typename?: "ProjectNode" } & {
+            " $fragmentRefs"?: { ProjectFragment: ProjectFragment };
+          })
+        | null;
     } | null>;
   } | null;
 };
 
+export const ProjectFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Project" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProjectNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ProjectFragment, unknown>;
+export const CreateProjectDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "CreateProject" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "CreateProjectInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "createProject" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "project" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "Project" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Project" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProjectNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateProjectMutation,
+  CreateProjectMutationVariables
+>;
+export const UpdateProjectDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "UpdateProject" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "UpdateProjectInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "updateProject" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "project" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "Project" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Project" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProjectNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateProjectMutation,
+  UpdateProjectMutationVariables
+>;
 export const ProjectsDocument = {
   kind: "Document",
   definitions: [
@@ -317,16 +593,8 @@ export const ProjectsDocument = {
                           kind: "SelectionSet",
                           selections: [
                             {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "name" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "description" },
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "Project" },
                             },
                           ],
                         },
@@ -337,6 +605,24 @@ export const ProjectsDocument = {
               ],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Project" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProjectNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
         ],
       },
     },

@@ -15,6 +15,17 @@ type ChangePasswordPayload {
   clientMutationId: String
 }
 
+input CreateProjectInput {
+  name: String!
+  description: String
+  clientMutationId: String
+}
+
+type CreateProjectPayload {
+  project: ProjectNode
+  clientMutationId: String
+}
+
 input CreateUserInput {
   firstName: String!
   lastName: String!
@@ -71,6 +82,9 @@ String, Boolean, Int, Float, List or Object.
 scalar GenericScalar
 
 type Mutation {
+  createProject(input: CreateProjectInput!): CreateProjectPayload
+  updateProject(input: UpdateProjectInput!): UpdateProjectPayload
+
   """Obtain JSON Web Token mutation"""
   tokenAuth(email: String!, password: String!): ObtainJSONWebToken
   verifyToken(token: String): Verify
@@ -115,6 +129,7 @@ type ProjectNode implements Node {
   id: ID!
   name: String!
   description: String
+  user: UserNode!
   createdAt: DateTime!
   updatedAt: DateTime!
   documents(offset: Int, before: String, after: String, first: Int, last: Int): DocumentNodeConnection!
@@ -170,6 +185,18 @@ type UpdateMePayload {
   clientMutationId: String
 }
 
+input UpdateProjectInput {
+  name: String!
+  description: String
+  id: String!
+  clientMutationId: String
+}
+
+type UpdateProjectPayload {
+  project: ProjectNode
+  clientMutationId: String
+}
+
 type UserNode implements Node {
   """The ID of the object"""
   id: ID!
@@ -186,6 +213,7 @@ type UserNode implements Node {
   email: String!
   isStaff: Boolean!
   isActive: Boolean!
+  projects(offset: Int, before: String, after: String, first: Int, last: Int): ProjectNodeConnection!
 }
 
 type Verify {
