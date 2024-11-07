@@ -4,7 +4,7 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import { ErrorMessage, Field } from 'formik'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
-import { Label, TextInput } from 'flowbite-react'
+import { CustomFlowbiteTheme, Label, TextInput } from 'flowbite-react'
 import { FormError } from '@components'
 
 interface CustomProps {
@@ -18,6 +18,17 @@ interface CustomProps {
 }
 
 interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'defaultValue' | 'name' | 'type'>, CustomProps {
+}
+
+//TODO extend color "transparent" for this in flowbite config
+const customTheme: CustomFlowbiteTheme['textInput'] = {
+  field: {
+    input: {
+      colors: {
+        gray: 'border-none bg-white/50 shadow-md text-gray-900 focus:ring-purple-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-purple-500',
+      },
+    },
+  },
 }
 
 const AuthFormField: FC<Props> = ({ as, label, name, component, type = 'text', className, placeholder, ...rest }) => {
@@ -39,6 +50,7 @@ const AuthFormField: FC<Props> = ({ as, label, name, component, type = 'text', c
               id={name}
               name={name}
               placeholder={placeholder}
+              theme={customTheme}
               type={showPassword ? 'text' : type}
               {...{ ...(component ? { component } : { as: as ?? TextInput }) }}
               {...rest}

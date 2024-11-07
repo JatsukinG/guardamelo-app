@@ -10,7 +10,7 @@ const ProjectsPage = () => {
       <div className="px-4">
         <MainCard>
           <div className="w-full flex items-center justify-between">
-            <h2 className="mb-12">
+            <h2 className="mb-8">
               Mis proyectos
             </h2>
             <Button

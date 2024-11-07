@@ -315,6 +315,32 @@ export type Verify = {
   payload: Scalars["GenericScalar"]["output"];
 };
 
+export type DocumentFragment = {
+  __typename?: "DocumentNode";
+  id: string;
+  title: string;
+  content: string;
+  createdAt: any;
+  updatedAt: any;
+} & { " $fragmentName"?: "DocumentFragment" };
+
+export type DocumentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type DocumentsQuery = {
+  __typename?: "Query";
+  documents?: {
+    __typename?: "DocumentNodeConnection";
+    edges: Array<{
+      __typename?: "DocumentNodeEdge";
+      node?:
+        | ({ __typename?: "DocumentNode" } & {
+            " $fragmentRefs"?: { DocumentFragment: DocumentFragment };
+          })
+        | null;
+    } | null>;
+  } | null;
+};
+
 export type ProjectFragment = {
   __typename?: "ProjectNode";
   id: string;
@@ -373,6 +399,29 @@ export type ProjectsQuery = {
   } | null;
 };
 
+export const DocumentFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Document" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "DocumentNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "content" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DocumentFragment, unknown>;
 export const ProjectFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -396,6 +445,70 @@ export const ProjectFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<ProjectFragment, unknown>;
+export const DocumentsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "Documents" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "documents" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "Document" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Document" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "DocumentNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "content" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DocumentsQuery, DocumentsQueryVariables>;
 export const CreateProjectDocument = {
   kind: "Document",
   definitions: [
