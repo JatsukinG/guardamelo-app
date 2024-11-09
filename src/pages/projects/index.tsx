@@ -1,28 +1,30 @@
 import { Button } from 'flowbite-react'
-import NiceModal from '@ebay/nice-modal-react'
+import { useSetRecoilState } from 'recoil'
 import { IoMdAddCircle } from 'react-icons/io'
-import MainCard from '@/components/cards/MainCard'
-import ProjectsList from '@/modules/projects/components/ProjectsList'
-import CreateProjectModal from '@projects/components/CreateProjectModal'
+import { MainCard } from '@components'
+import ProjectList from '@projects/components/ProjectList'
+import showAddProjectStatus from '@projects/atoms/showAddProjectStatus'
 
 const ProjectsPage = () => {
+  const setShowAddProject = useSetRecoilState(showAddProjectStatus)
+
   return (
       <div className="px-4">
         <MainCard>
-          <div className="w-full flex items-center justify-between">
-            <h2 className="mb-8">
+          <div className="mb-8 w-full flex items-center justify-between">
+            <h2>
               Mis proyectos
             </h2>
             <Button
                 color="purple"
                 size="sm"
-                onClick={() => NiceModal.show(CreateProjectModal)}
+                onClick={() => setShowAddProject(true)}
             >
               <IoMdAddCircle size={18} className="me-2"/>
               Agregar proyecto
             </Button>
           </div>
-          <ProjectsList/>
+          <ProjectList/>
         </MainCard>
       </div>
   )

@@ -15,6 +15,18 @@ type ChangePasswordPayload {
   clientMutationId: String
 }
 
+input CreateDocumentInput {
+  projectId: ID!
+  title: String!
+  content: String
+  clientMutationId: String
+}
+
+type CreateDocumentPayload {
+  document: DocumentNode
+  clientMutationId: String
+}
+
 input CreateProjectInput {
   name: String!
   description: String
@@ -23,6 +35,20 @@ input CreateProjectInput {
 
 type CreateProjectPayload {
   project: ProjectNode
+  clientMutationId: String
+}
+
+input CreateResourceInput {
+  title: String!
+  content: String!
+  description: String
+  image: String
+  tags: JSONString
+  clientMutationId: String
+}
+
+type CreateResourcePayload {
+  resource: ResourceNode
   clientMutationId: String
 }
 
@@ -46,6 +72,36 @@ value as specified by
 [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
 """
 scalar DateTime
+
+input DeleteDocumentInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type DeleteDocumentPayload {
+  success: Boolean
+  clientMutationId: String
+}
+
+input DeleteProjectInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type DeleteProjectPayload {
+  success: Boolean
+  clientMutationId: String
+}
+
+input DeleteResourceInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type DeleteResourcePayload {
+  success: Boolean
+  clientMutationId: String
+}
 
 type DocumentNode implements Node {
   """The ID of the object"""
@@ -81,9 +137,24 @@ String, Boolean, Int, Float, List or Object.
 """
 scalar GenericScalar
 
+"""
+Allows use of a JSON String for input / output from the GraphQL schema.
+
+Use of this type is *not recommended* as you lose the benefits of having a defined, static
+schema (one of the key benefits of GraphQL).
+"""
+scalar JSONString
+
 type Mutation {
+  createResource(input: CreateResourceInput!): CreateResourcePayload
+  updateResource(input: UpdateResourceInput!): UpdateResourcePayload
+  deleteResource(input: DeleteResourceInput!): DeleteResourcePayload
   createProject(input: CreateProjectInput!): CreateProjectPayload
   updateProject(input: UpdateProjectInput!): UpdateProjectPayload
+  deleteProject(input: DeleteProjectInput!): DeleteProjectPayload
+  createDocument(input: CreateDocumentInput!): CreateDocumentPayload
+  updateDocument(input: UpdateDocumentInput!): UpdateDocumentPayload
+  deleteDocument(input: DeleteDocumentInput!): DeleteDocumentPayload
 
   """Obtain JSON Web Token mutation"""
   tokenAuth(email: String!, password: String!): ObtainJSONWebToken
@@ -153,6 +224,11 @@ type ProjectNodeEdge {
 }
 
 type Query {
+  resource(
+    """The ID of the object"""
+    id: ID!
+  ): ResourceNode
+  resources(offset: Int, before: String, after: String, first: Int, last: Int): ResourceNodeConnection
   project(
     """The ID of the object"""
     id: ID!
@@ -172,6 +248,48 @@ type Refresh {
   token: String!
 }
 
+type ResourceNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  title: String!
+  description: String
+  content: String!
+  image: String
+  author: UserNode!
+  tags: JSONString!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ResourceNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ResourceNodeEdge]!
+}
+
+"""A Relay edge containing a `ResourceNode` and its cursor."""
+type ResourceNodeEdge {
+  """The item at the end of the edge"""
+  node: ResourceNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input UpdateDocumentInput {
+  id: ID!
+  title: String
+  content: String
+  clientMutationId: String
+}
+
+type UpdateDocumentPayload {
+  document: DocumentNode
+  clientMutationId: String
+}
+
 input UpdateMeInput {
   firstName: String!
   lastName: String!
@@ -186,14 +304,29 @@ type UpdateMePayload {
 }
 
 input UpdateProjectInput {
+  id: ID!
   name: String!
   description: String
-  id: String!
   clientMutationId: String
 }
 
 type UpdateProjectPayload {
   project: ProjectNode
+  clientMutationId: String
+}
+
+input UpdateResourceInput {
+  id: ID!
+  title: String
+  content: String
+  description: String
+  image: String
+  tags: JSONString
+  clientMutationId: String
+}
+
+type UpdateResourcePayload {
+  resource: ResourceNode
   clientMutationId: String
 }
 
@@ -214,6 +347,7 @@ type UserNode implements Node {
   isStaff: Boolean!
   isActive: Boolean!
   projects(offset: Int, before: String, after: String, first: Int, last: Int): ProjectNodeConnection!
+  resources(offset: Int, before: String, after: String, first: Int, last: Int): ResourceNodeConnection!
 }
 
 type Verify {
