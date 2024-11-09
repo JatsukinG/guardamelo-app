@@ -1,6 +1,6 @@
 import { MainCard } from '@components'
 import { FaClock, FaPlusCircle, FaStar, FaTerminal } from 'react-icons/fa'
-import ProjectsList from '@projects/components/ProjectsList'
+import ProjectList from '@projects/components/ProjectList'
 
 const cardsData = [
   {
@@ -60,7 +60,7 @@ const HomePage = () => {
             }
           </div>
           <h3 className="mb-8">Mis proyectos</h3>
-          <ProjectsList/>
+          <ProjectList/>
         </MainCard>
       </div>
   )
