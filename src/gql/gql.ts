@@ -14,10 +14,10 @@ import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-  "\n  fragment Document on DocumentNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n":
-    types.DocumentFragmentDoc,
-  "\n  query Documents {\n    documents {\n      edges {\n        node {\n          ...Document\n        }\n      }\n    }\n  }\n":
-    types.DocumentsDocument,
+  "\n  fragment Note on NoteNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n":
+    types.NoteFragmentDoc,
+  "\n  query Notes {\n    notes {\n      edges {\n        node {\n          ...Note\n        }\n      }\n    }\n  }\n":
+    types.NotesDocument,
   "\n  fragment Project on ProjectNode {\n    id\n    name\n    description\n    createdAt\n    updatedAt\n  }\n":
     types.ProjectFragmentDoc,
   "\n  mutation CreateProject($input: CreateProjectInput!) {\n    createProject(input: $input) {\n      project {\n        ...Project\n      }\n    }\n  }\n":
@@ -46,14 +46,14 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  fragment Document on DocumentNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n",
-): (typeof documents)["\n  fragment Document on DocumentNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n"];
+  source: "\n  fragment Note on NoteNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n",
+): (typeof documents)["\n  fragment Note on NoteNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  query Documents {\n    documents {\n      edges {\n        node {\n          ...Document\n        }\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query Documents {\n    documents {\n      edges {\n        node {\n          ...Document\n        }\n      }\n    }\n  }\n"];
+  source: "\n  query Notes {\n    notes {\n      edges {\n        node {\n          ...Note\n        }\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query Notes {\n    notes {\n      edges {\n        node {\n          ...Note\n        }\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

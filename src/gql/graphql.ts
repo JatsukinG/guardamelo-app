@@ -39,6 +39,13 @@ export type Scalars = {
    * String, Boolean, Int, Float, List or Object.
    */
   GenericScalar: { input: any; output: any };
+  /**
+   * Allows use of a JSON String for input / output from the GraphQL schema.
+   *
+   * Use of this type is *not recommended* as you lose the benefits of having a defined, static
+   * schema (one of the key benefits of GraphQL).
+   */
+  JSONString: { input: any; output: any };
 };
 
 export type ChangePasswordInput = {
@@ -53,6 +60,19 @@ export type ChangePasswordPayload = {
   user?: Maybe<UserNode>;
 };
 
+export type CreateNoteInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  content?: InputMaybe<Scalars["String"]["input"]>;
+  projectId: Scalars["ID"]["input"];
+  title: Scalars["String"]["input"];
+};
+
+export type CreateNotePayload = {
+  __typename?: "CreateNotePayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  note?: Maybe<NoteNode>;
+};
+
 export type CreateProjectInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
@@ -63,6 +83,21 @@ export type CreateProjectPayload = {
   __typename?: "CreateProjectPayload";
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
   project?: Maybe<ProjectNode>;
+};
+
+export type CreateResourceInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  content: Scalars["String"]["input"];
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  image?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Scalars["JSONString"]["input"]>;
+  title: Scalars["String"]["input"];
+};
+
+export type CreateResourcePayload = {
+  __typename?: "CreateResourcePayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  resource?: Maybe<ResourceNode>;
 };
 
 export type CreateUserInput = {
@@ -80,43 +115,55 @@ export type CreateUserPayload = {
   user?: Maybe<UserNode>;
 };
 
-export type DocumentNode = Node & {
-  __typename?: "DocumentNode";
-  content: Scalars["String"]["output"];
-  createdAt: Scalars["DateTime"]["output"];
-  /** The ID of the object */
-  id: Scalars["ID"]["output"];
-  project: ProjectNode;
-  title: Scalars["String"]["output"];
-  updatedAt: Scalars["DateTime"]["output"];
+export type DeleteNoteInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["ID"]["input"];
 };
 
-export type DocumentNodeConnection = {
-  __typename?: "DocumentNodeConnection";
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<DocumentNodeEdge>>;
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
+export type DeleteNotePayload = {
+  __typename?: "DeleteNotePayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
-/** A Relay edge containing a `DocumentNode` and its cursor. */
-export type DocumentNodeEdge = {
-  __typename?: "DocumentNodeEdge";
-  /** A cursor for use in pagination */
-  cursor: Scalars["String"]["output"];
-  /** The item at the end of the edge */
-  node?: Maybe<DocumentNode>;
+export type DeleteProjectInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["ID"]["input"];
+};
+
+export type DeleteProjectPayload = {
+  __typename?: "DeleteProjectPayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
+};
+
+export type DeleteResourceInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["ID"]["input"];
+};
+
+export type DeleteResourcePayload = {
+  __typename?: "DeleteResourcePayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type Mutation = {
   __typename?: "Mutation";
   changePassword?: Maybe<ChangePasswordPayload>;
+  createNote?: Maybe<CreateNotePayload>;
   createProject?: Maybe<CreateProjectPayload>;
+  createResource?: Maybe<CreateResourcePayload>;
   createUser?: Maybe<CreateUserPayload>;
+  deleteNote?: Maybe<DeleteNotePayload>;
+  deleteProject?: Maybe<DeleteProjectPayload>;
+  deleteResource?: Maybe<DeleteResourcePayload>;
   refreshToken?: Maybe<Refresh>;
   /** Obtain JSON Web Token mutation */
   tokenAuth?: Maybe<ObtainJsonWebToken>;
+  updateNote?: Maybe<UpdateNotePayload>;
   updateProject?: Maybe<UpdateProjectPayload>;
+  updateResource?: Maybe<UpdateResourcePayload>;
   updateUser?: Maybe<UpdateMePayload>;
   verifyToken?: Maybe<Verify>;
 };
@@ -125,12 +172,32 @@ export type MutationChangePasswordArgs = {
   input: ChangePasswordInput;
 };
 
+export type MutationCreateNoteArgs = {
+  input: CreateNoteInput;
+};
+
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
 
+export type MutationCreateResourceArgs = {
+  input: CreateResourceInput;
+};
+
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+export type MutationDeleteNoteArgs = {
+  input: DeleteNoteInput;
+};
+
+export type MutationDeleteProjectArgs = {
+  input: DeleteProjectInput;
+};
+
+export type MutationDeleteResourceArgs = {
+  input: DeleteResourceInput;
 };
 
 export type MutationRefreshTokenArgs = {
@@ -142,8 +209,16 @@ export type MutationTokenAuthArgs = {
   password: Scalars["String"]["input"];
 };
 
+export type MutationUpdateNoteArgs = {
+  input: UpdateNoteInput;
+};
+
 export type MutationUpdateProjectArgs = {
   input: UpdateProjectInput;
+};
+
+export type MutationUpdateResourceArgs = {
+  input: UpdateResourceInput;
 };
 
 export type MutationUpdateUserArgs = {
@@ -158,6 +233,34 @@ export type MutationVerifyTokenArgs = {
 export type Node = {
   /** The ID of the object */
   id: Scalars["ID"]["output"];
+};
+
+export type NoteNode = Node & {
+  __typename?: "NoteNode";
+  content: Scalars["String"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
+  /** The ID of the object */
+  id: Scalars["ID"]["output"];
+  project: ProjectNode;
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
+};
+
+export type NoteNodeConnection = {
+  __typename?: "NoteNodeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<NoteNodeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `NoteNode` and its cursor. */
+export type NoteNodeEdge = {
+  __typename?: "NoteNodeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"]["output"];
+  /** The item at the end of the edge */
+  node?: Maybe<NoteNode>;
 };
 
 /** Obtain JSON Web Token mutation */
@@ -185,15 +288,15 @@ export type ProjectNode = Node & {
   __typename?: "ProjectNode";
   createdAt: Scalars["DateTime"]["output"];
   description?: Maybe<Scalars["String"]["output"]>;
-  documents: DocumentNodeConnection;
   /** The ID of the object */
   id: Scalars["ID"]["output"];
   name: Scalars["String"]["output"];
+  notes: NoteNodeConnection;
   updatedAt: Scalars["DateTime"]["output"];
   user: UserNode;
 };
 
-export type ProjectNodeDocumentsArgs = {
+export type ProjectNodeNotesArgs = {
   after?: InputMaybe<Scalars["String"]["input"]>;
   before?: InputMaybe<Scalars["String"]["input"]>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
@@ -220,18 +323,20 @@ export type ProjectNodeEdge = {
 
 export type Query = {
   __typename?: "Query";
-  document?: Maybe<DocumentNode>;
-  documents?: Maybe<DocumentNodeConnection>;
   me?: Maybe<UserNode>;
+  note?: Maybe<NoteNode>;
+  notes?: Maybe<NoteNodeConnection>;
   project?: Maybe<ProjectNode>;
   projects?: Maybe<ProjectNodeConnection>;
+  resource?: Maybe<ResourceNode>;
+  resources?: Maybe<ResourceNodeConnection>;
 };
 
-export type QueryDocumentArgs = {
+export type QueryNoteArgs = {
   id: Scalars["ID"]["input"];
 };
 
-export type QueryDocumentsArgs = {
+export type QueryNotesArgs = {
   after?: InputMaybe<Scalars["String"]["input"]>;
   before?: InputMaybe<Scalars["String"]["input"]>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
@@ -251,11 +356,54 @@ export type QueryProjectsArgs = {
   offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
+export type QueryResourceArgs = {
+  id: Scalars["ID"]["input"];
+};
+
+export type QueryResourcesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type Refresh = {
   __typename?: "Refresh";
   payload: Scalars["GenericScalar"]["output"];
   refreshExpiresIn: Scalars["Int"]["output"];
   token: Scalars["String"]["output"];
+};
+
+export type ResourceNode = Node & {
+  __typename?: "ResourceNode";
+  author: UserNode;
+  content: Scalars["String"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
+  description?: Maybe<Scalars["String"]["output"]>;
+  /** The ID of the object */
+  id: Scalars["ID"]["output"];
+  image?: Maybe<Scalars["String"]["output"]>;
+  tags: Scalars["JSONString"]["output"];
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
+};
+
+export type ResourceNodeConnection = {
+  __typename?: "ResourceNodeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ResourceNodeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `ResourceNode` and its cursor. */
+export type ResourceNodeEdge = {
+  __typename?: "ResourceNodeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"]["output"];
+  /** The item at the end of the edge */
+  node?: Maybe<ResourceNode>;
 };
 
 export type UpdateMeInput = {
@@ -272,10 +420,23 @@ export type UpdateMePayload = {
   user?: Maybe<UserNode>;
 };
 
+export type UpdateNoteInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  content?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["ID"]["input"];
+  title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type UpdateNotePayload = {
+  __typename?: "UpdateNotePayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  note?: Maybe<NoteNode>;
+};
+
 export type UpdateProjectInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["String"]["input"];
+  id: Scalars["ID"]["input"];
   name: Scalars["String"]["input"];
 };
 
@@ -283,6 +444,22 @@ export type UpdateProjectPayload = {
   __typename?: "UpdateProjectPayload";
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
   project?: Maybe<ProjectNode>;
+};
+
+export type UpdateResourceInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  content?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["ID"]["input"];
+  image?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Scalars["JSONString"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type UpdateResourcePayload = {
+  __typename?: "UpdateResourcePayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  resource?: Maybe<ResourceNode>;
 };
 
 export type UserNode = Node & {
@@ -300,9 +477,18 @@ export type UserNode = Node & {
   password: Scalars["String"]["output"];
   phone?: Maybe<Scalars["String"]["output"]>;
   projects: ProjectNodeConnection;
+  resources: ResourceNodeConnection;
 };
 
 export type UserNodeProjectsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type UserNodeResourcesArgs = {
   after?: InputMaybe<Scalars["String"]["input"]>;
   before?: InputMaybe<Scalars["String"]["input"]>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
@@ -315,26 +501,26 @@ export type Verify = {
   payload: Scalars["GenericScalar"]["output"];
 };
 
-export type DocumentFragment = {
-  __typename?: "DocumentNode";
+export type NoteFragment = {
+  __typename?: "NoteNode";
   id: string;
   title: string;
   content: string;
   createdAt: any;
   updatedAt: any;
-} & { " $fragmentName"?: "DocumentFragment" };
+} & { " $fragmentName"?: "NoteFragment" };
 
-export type DocumentsQueryVariables = Exact<{ [key: string]: never }>;
+export type NotesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type DocumentsQuery = {
+export type NotesQuery = {
   __typename?: "Query";
-  documents?: {
-    __typename?: "DocumentNodeConnection";
+  notes?: {
+    __typename?: "NoteNodeConnection";
     edges: Array<{
-      __typename?: "DocumentNodeEdge";
+      __typename?: "NoteNodeEdge";
       node?:
-        | ({ __typename?: "DocumentNode" } & {
-            " $fragmentRefs"?: { DocumentFragment: DocumentFragment };
+        | ({ __typename?: "NoteNode" } & {
+            " $fragmentRefs"?: { NoteFragment: NoteFragment };
           })
         | null;
     } | null>;
@@ -399,15 +585,15 @@ export type ProjectsQuery = {
   } | null;
 };
 
-export const DocumentFragmentDoc = {
+export const NoteFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "Document" },
+      name: { kind: "Name", value: "Note" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "DocumentNode" },
+        name: { kind: "Name", value: "NoteNode" },
       },
       selectionSet: {
         kind: "SelectionSet",
@@ -421,7 +607,7 @@ export const DocumentFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<DocumentFragment, unknown>;
+} as unknown as DocumentNode<NoteFragment, unknown>;
 export const ProjectFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -445,19 +631,19 @@ export const ProjectFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<ProjectFragment, unknown>;
-export const DocumentsDocument = {
+export const NotesDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "Documents" },
+      name: { kind: "Name", value: "Notes" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "documents" },
+            name: { kind: "Name", value: "notes" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -475,7 +661,7 @@ export const DocumentsDocument = {
                           selections: [
                             {
                               kind: "FragmentSpread",
-                              name: { kind: "Name", value: "Document" },
+                              name: { kind: "Name", value: "Note" },
                             },
                           ],
                         },
@@ -491,10 +677,10 @@ export const DocumentsDocument = {
     },
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "Document" },
+      name: { kind: "Name", value: "Note" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "DocumentNode" },
+        name: { kind: "Name", value: "NoteNode" },
       },
       selectionSet: {
         kind: "SelectionSet",
@@ -508,7 +694,7 @@ export const DocumentsDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<DocumentsQuery, DocumentsQueryVariables>;
+} as unknown as DocumentNode<NotesQuery, NotesQueryVariables>;
 export const CreateProjectDocument = {
   kind: "Document",
   definitions: [
