@@ -15,15 +15,15 @@ type ChangePasswordPayload {
   clientMutationId: String
 }
 
-input CreateDocumentInput {
+input CreateNoteInput {
   projectId: ID!
   title: String!
   content: String
   clientMutationId: String
 }
 
-type CreateDocumentPayload {
-  document: DocumentNode
+type CreateNotePayload {
+  note: NoteNode
   clientMutationId: String
 }
 
@@ -73,12 +73,12 @@ value as specified by
 """
 scalar DateTime
 
-input DeleteDocumentInput {
+input DeleteNoteInput {
   id: ID!
   clientMutationId: String
 }
 
-type DeleteDocumentPayload {
+type DeleteNotePayload {
   success: Boolean
   clientMutationId: String
 }
@@ -103,33 +103,6 @@ type DeleteResourcePayload {
   clientMutationId: String
 }
 
-type DocumentNode implements Node {
-  """The ID of the object"""
-  id: ID!
-  project: ProjectNode!
-  title: String!
-  content: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type DocumentNodeConnection {
-  """Pagination data for this connection."""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection."""
-  edges: [DocumentNodeEdge]!
-}
-
-"""A Relay edge containing a `DocumentNode` and its cursor."""
-type DocumentNodeEdge {
-  """The item at the end of the edge"""
-  node: DocumentNode
-
-  """A cursor for use in pagination"""
-  cursor: String!
-}
-
 """
 The `GenericScalar` scalar type represents a generic
 GraphQL scalar value that could be:
@@ -152,9 +125,9 @@ type Mutation {
   createProject(input: CreateProjectInput!): CreateProjectPayload
   updateProject(input: UpdateProjectInput!): UpdateProjectPayload
   deleteProject(input: DeleteProjectInput!): DeleteProjectPayload
-  createDocument(input: CreateDocumentInput!): CreateDocumentPayload
-  updateDocument(input: UpdateDocumentInput!): UpdateDocumentPayload
-  deleteDocument(input: DeleteDocumentInput!): DeleteDocumentPayload
+  createNote(input: CreateNoteInput!): CreateNotePayload
+  updateNote(input: UpdateNoteInput!): UpdateNotePayload
+  deleteNote(input: DeleteNoteInput!): DeleteNotePayload
 
   """Obtain JSON Web Token mutation"""
   tokenAuth(email: String!, password: String!): ObtainJSONWebToken
@@ -169,6 +142,33 @@ type Mutation {
 interface Node {
   """The ID of the object"""
   id: ID!
+}
+
+type NoteNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  project: ProjectNode!
+  title: String!
+  content: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type NoteNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [NoteNodeEdge]!
+}
+
+"""A Relay edge containing a `NoteNode` and its cursor."""
+type NoteNodeEdge {
+  """The item at the end of the edge"""
+  node: NoteNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
 }
 
 """Obtain JSON Web Token mutation"""
@@ -203,7 +203,7 @@ type ProjectNode implements Node {
   user: UserNode!
   createdAt: DateTime!
   updatedAt: DateTime!
-  documents(offset: Int, before: String, after: String, first: Int, last: Int): DocumentNodeConnection!
+  notes(offset: Int, before: String, after: String, first: Int, last: Int): NoteNodeConnection!
 }
 
 type ProjectNodeConnection {
@@ -234,11 +234,11 @@ type Query {
     id: ID!
   ): ProjectNode
   projects(offset: Int, before: String, after: String, first: Int, last: Int): ProjectNodeConnection
-  document(
+  note(
     """The ID of the object"""
     id: ID!
-  ): DocumentNode
-  documents(offset: Int, before: String, after: String, first: Int, last: Int): DocumentNodeConnection
+  ): NoteNode
+  notes(offset: Int, before: String, after: String, first: Int, last: Int): NoteNodeConnection
   me: UserNode
 }
 
@@ -278,18 +278,6 @@ type ResourceNodeEdge {
   cursor: String!
 }
 
-input UpdateDocumentInput {
-  id: ID!
-  title: String
-  content: String
-  clientMutationId: String
-}
-
-type UpdateDocumentPayload {
-  document: DocumentNode
-  clientMutationId: String
-}
-
 input UpdateMeInput {
   firstName: String!
   lastName: String!
@@ -300,6 +288,18 @@ input UpdateMeInput {
 
 type UpdateMePayload {
   user: UserNode
+  clientMutationId: String
+}
+
+input UpdateNoteInput {
+  id: ID!
+  title: String
+  content: String
+  clientMutationId: String
+}
+
+type UpdateNotePayload {
+  note: NoteNode
   clientMutationId: String
 }
 
