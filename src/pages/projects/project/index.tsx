@@ -1,14 +1,14 @@
 import { MainCard } from '@components'
-import DocumentList from '@projects/documents/components/DocumentList'
+import NoteList from '@projects/notes/components/NoteList'
 
 const ProjectPage = () => {
   return (
       <div className="px-4">
         <MainCard>
           <h3 className="mb-8">
-            Mis documentos
+            Mis notas
           </h3>
-          <DocumentList/>
+          <NoteList/>
         </MainCard>
       </div>
   )
