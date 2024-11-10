@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik'
 import { Button } from 'flowbite-react'
 import { formErrors } from '@constants'
 import { FormField } from '@components'
+import NoteEditor from '@projects/notes/components/NoteEditor'
 
 interface Values {
   title: string
@@ -35,6 +36,7 @@ const CreateNoteForm = () => {
               name="title"
               className="max-w-sm"
           />
+          <NoteEditor onSave={() => {}}/>
           <div>
             <Button color="purple" type="submit">
               Crear
