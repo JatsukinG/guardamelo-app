@@ -1,9 +1,9 @@
 import * as Yup from 'yup'
-import { Form, Formik } from 'formik'
 import { Button } from 'flowbite-react'
-import { formErrors } from '@constants'
+import { Field, Form, Formik } from 'formik'
 import { FormField } from '@components'
-import NoteEditor from '@projects/notes/components/NoteEditor'
+import { formErrors } from '@constants'
+import NoteEditorField from '@projects/notes/components/NoteEditorField'
 
 interface Values {
   title: string
@@ -36,7 +36,11 @@ const CreateNoteForm = () => {
               name="title"
               className="max-w-sm"
           />
-          <NoteEditor onSave={() => {}}/>
+          <Field
+              name="content"
+              component={NoteEditorField}
+              label="Contenido"
+          />
           <div>
             <Button color="purple" type="submit">
               Crear

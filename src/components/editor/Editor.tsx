@@ -1,15 +1,15 @@
 import type { FC } from 'react'
+import clsx from 'clsx'
 import StarterKit from '@tiptap/starter-kit'
 import CodeBlock from '@tiptap/extension-code-block'
 import { EditorContent, useEditor } from '@tiptap/react'
 import EditorToolbar from '@/components/editor/EditorToolbar'
-import clsx from 'clsx'
 
 interface Props {
-  onSave?: (content: string) => void
+  onChange?: (content: string) => void
 }
 
-const Editor: FC<Props> = ({ onSave }) => {
+const Editor: FC<Props> = ({ onChange }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -20,14 +20,11 @@ const Editor: FC<Props> = ({ onSave }) => {
       }),
     ],
     autofocus: 'end',
-  })
-
-  const handleSave = () => {
-    if (editor) {
+    onUpdate: ({ editor }) => {
       const content = editor.getHTML()
-      onSave?.(content)
-    }
-  }
+      onChange?.(content)
+    },
+  })
 
   if (!editor) {
     return null
@@ -43,12 +40,6 @@ const Editor: FC<Props> = ({ onSave }) => {
               '[&>div]:flex-grow [&>div]:outline-none',
             ])}
         />
-        <button
-            onClick={handleSave}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
-        >
-          Guardar Nota
-        </button>
       </div>
   )
 }
