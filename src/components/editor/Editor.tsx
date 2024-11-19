@@ -24,7 +24,7 @@ const Editor: FC<Props> = ({ onChange }) => {
         },
         listItem: {
           HTMLAttributes: {
-            class: 'pl-2',
+            class: 'pl-1',
           },
         },
         code: {
