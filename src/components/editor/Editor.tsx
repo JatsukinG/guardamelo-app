@@ -1,7 +1,6 @@
 import type { FC } from 'react'
 import clsx from 'clsx'
 import StarterKit from '@tiptap/starter-kit'
-import CodeBlock from '@tiptap/extension-code-block'
 import { EditorContent, useEditor } from '@tiptap/react'
 import EditorToolbar from '@/components/editor/EditorToolbar'
 
@@ -12,10 +11,31 @@ interface Props {
 const Editor: FC<Props> = ({ onChange }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      CodeBlock.configure({
-        HTMLAttributes: {
-          class: 'bg-gray-100 text-gray-800 rounded p-4 font-mono',
+      StarterKit.configure({
+        bulletList: {
+          HTMLAttributes: {
+            class: 'list-disc pl-4 text-gray-800',
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: 'list-decimal pl-4 text-gray-800',
+          },
+        },
+        listItem: {
+          HTMLAttributes: {
+            class: 'pl-2',
+          },
+        },
+        code: {
+          HTMLAttributes: {
+            class: 'text-sm bg-gray-100 text-gray-800 rounded px-1 font-mono',
+          },
+        },
+        codeBlock: {
+          HTMLAttributes: {
+            class: 'text-sm bg-gray-100 text-gray-800 rounded p-4 font-mono',
+          },
         },
       }),
     ],
@@ -33,13 +53,15 @@ const Editor: FC<Props> = ({ onChange }) => {
   return (
       <div>
         <EditorToolbar editor={editor}/>
-        <EditorContent
-            editor={editor}
-            className={clsx([
-              'prose lg:prose-xl bg-white p-2 min-h-96 h-max flex rounded',
-              '[&>div]:flex-grow [&>div]:outline-none',
-            ])}
-        />
+        <div className="bg-white p-4 min-h-96 max-h-96 overflow-auto">
+          <EditorContent
+              editor={editor}
+              className={clsx([
+                'prose lg:prose-xl h-full flex rounded',
+                '[&>div]:flex-grow [&>div]:outline-none',
+              ])}
+          />
+        </div>
       </div>
   )
 }
