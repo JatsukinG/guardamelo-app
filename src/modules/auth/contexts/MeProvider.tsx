@@ -23,7 +23,7 @@ const MeProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   if (error)
-    return <Navigate to="/auth/logout"/>
+    return <Navigate to="/auth/login"/>
 
   const canRenderChildren = !loading && data?.me
 

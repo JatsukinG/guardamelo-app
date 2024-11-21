@@ -8,14 +8,19 @@ import ProjectsPage from '@/pages/projects'
 import ResourcesPage from '@/pages/resources'
 import ProjectPage from '@/pages/projects/project'
 import ResourcePage from '@/pages/resources/resource'
+import AuthProvider from '@auth/contexts/AuthProvider'
+import MeProvider from '@auth/contexts/MeProvider'
+import ProtectedRoutes from '@/router/ProtectedRoutes'
 
 const router = createBrowserRouter([
   {
     path: 'auth',
     element: (
-        <AuthLayout>
-          <Outlet/>
-        </AuthLayout>
+        <AuthProvider>
+          <AuthLayout>
+            <Outlet/>
+          </AuthLayout>
+        </AuthProvider>
     ),
     children: [
       {
@@ -27,9 +32,13 @@ const router = createBrowserRouter([
   {
     path: '',
     element: (
-        <MainLayout>
-          <Outlet/>
-        </MainLayout>
+        <AuthProvider>
+          <MeProvider>
+            <MainLayout>
+              <ProtectedRoutes/>
+            </MainLayout>
+          </MeProvider>
+        </AuthProvider>
     ),
     children: [
       {
