@@ -14,12 +14,12 @@ const Editor: FC<Props> = ({ onChange }) => {
       StarterKit.configure({
         bulletList: {
           HTMLAttributes: {
-            class: 'list-disc pl-4 text-gray-800',
+            class: 'list-disc pl-8 text-gray-800',
           },
         },
         orderedList: {
           HTMLAttributes: {
-            class: 'list-decimal pl-4 text-gray-800',
+            class: 'list-decimal pl-8 text-gray-800',
           },
         },
         listItem: {
@@ -53,11 +53,11 @@ const Editor: FC<Props> = ({ onChange }) => {
   return (
       <div>
         <EditorToolbar editor={editor}/>
-        <div className="bg-white p-4 min-h-96 max-h-96 overflow-auto">
+        <div className="bg-white p-4 min-h-96 max-h-96 flex flex-col overflow-auto">
           <EditorContent
               editor={editor}
               className={clsx([
-                'prose lg:prose-xl h-full flex rounded',
+                'flex-grow prose lg:prose-xl h-full flex flex-col rounded',
                 '[&>div]:flex-grow [&>div]:outline-none',
               ])}
           />
