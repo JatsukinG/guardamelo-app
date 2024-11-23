@@ -14,7 +14,7 @@ const ProjectNameItem: FC<Props> = ({ project }) => {
       <li className="py-2">
         <button
             className="link flex items-center font-semibold gap-2"
-            onClick={() => navigate(`/projects/${project?.id}`)}
+            onClick={() => navigate(`/projects/${project?.id}/notes`)}
         >
           <MdFolder/>
           {project?.name}
