@@ -1,18 +1,38 @@
 import * as Yup from 'yup'
 import { Form, Formik } from 'formik'
-import { Button, Checkbox, Label } from 'flowbite-react'
+import { useMutation } from '@apollo/client'
+import { HiInformationCircle } from 'react-icons/hi'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Alert, Button, Checkbox, Label } from 'flowbite-react'
+import { useAuth } from '@auth/hooks'
 import { formErrors } from '@constants'
 import AuthFormField from '@auth/components/AuthFormField'
 import { emailValidation } from '@snippets/forms/validations'
+import tokenAuthMutation from '@auth/mutations/tokenAuthMutation'
 
 interface Values {
-  username: string
+  email: string
   password: string
 }
 
 const LoginForm = () => {
+  const { login } = useAuth()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+
+  const [tokenAuth, { loading, error }] = useMutation(tokenAuthMutation, {
+    onCompleted: (data) => {
+      const from = searchParams.get('from')
+      const authToken = data?.tokenAuth?.token
+      if (authToken) {
+        login(authToken)
+        navigate(from ? from : '/')
+      }
+    },
+  })
+
   const validationSchema = Yup.object({
-    username: Yup.string().required(formErrors.required).matches(
+    email: Yup.string().required(formErrors.required).matches(
         emailValidation,
         formErrors.email,
     ),
@@ -20,12 +40,17 @@ const LoginForm = () => {
   })
 
   const initialValues: Values = {
-    username: import.meta.env.VITE_EMAIL ?? '',
+    email: import.meta.env.VITE_EMAIL ?? '',
     password: import.meta.env.VITE_PASSWORD ?? '',
   }
 
-  const onSubmit = (values: Values) => {
-    console.log(values)
+  const onSubmit = async (values: Values) => {
+    await tokenAuth({
+      variables: {
+        email: values.email,
+        password: values.password,
+      },
+    })
   }
 
   return (
@@ -36,9 +61,18 @@ const LoginForm = () => {
             onSubmit={onSubmit}
         >
           <Form noValidate className="flex flex-col gap-4">
+            {
+                error &&
+                <Alert
+                    color="failure"
+                    className="mb-3"
+                    icon={HiInformationCircle}>
+                  {error.message}
+                </Alert>
+            }
             <AuthFormField
-                label="Usuario"
-                name="username"
+                label="Correo electrónico"
+                name="email"
             />
             <AuthFormField
                 label="Contraseña"
@@ -49,7 +83,9 @@ const LoginForm = () => {
               <Checkbox color="dark" id="remember-me"/>
               <Label htmlFor="remember-me">Recuerdame</Label>
             </div>
-            <Button color="purple" type="submit">
+            <Button
+                isProcessing={loading}
+                color="purple" type="submit">
               Ingresar
             </Button>
             <div>

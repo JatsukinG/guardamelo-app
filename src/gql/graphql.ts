@@ -501,29 +501,45 @@ export type Verify = {
   payload: Scalars["GenericScalar"]["output"];
 };
 
-export type NoteFragment = {
-  __typename?: "NoteNode";
-  id: string;
-  title: string;
-  content: string;
-  createdAt: any;
-  updatedAt: any;
-} & { " $fragmentName"?: "NoteFragment" };
+export type RegisterMutationMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
 
-export type NotesQueryVariables = Exact<{ [key: string]: never }>;
+export type RegisterMutationMutation = {
+  __typename?: "Mutation";
+  createUser?: {
+    __typename?: "CreateUserPayload";
+    user?: {
+      __typename?: "UserNode";
+      id: string;
+      firstName: string;
+      lastName: string;
+    } | null;
+  } | null;
+};
 
-export type NotesQuery = {
+export type LoginMutationMutationVariables = Exact<{
+  email: Scalars["String"]["input"];
+  password: Scalars["String"]["input"];
+}>;
+
+export type LoginMutationMutation = {
+  __typename?: "Mutation";
+  tokenAuth?: { __typename?: "ObtainJSONWebToken"; token: string } | null;
+};
+
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeQuery = {
   __typename?: "Query";
-  notes?: {
-    __typename?: "NoteNodeConnection";
-    edges: Array<{
-      __typename?: "NoteNodeEdge";
-      node?:
-        | ({ __typename?: "NoteNode" } & {
-            " $fragmentRefs"?: { NoteFragment: NoteFragment };
-          })
-        | null;
-    } | null>;
+  me?: {
+    __typename?: "UserNode";
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    isActive: boolean;
+    phone?: string | null;
   } | null;
 };
 
@@ -568,6 +584,32 @@ export type UpdateProjectMutation = {
   } | null;
 };
 
+export type NoteFragment = {
+  __typename?: "NoteNode";
+  id: string;
+  title: string;
+  content: string;
+  createdAt: any;
+  updatedAt: any;
+} & { " $fragmentName"?: "NoteFragment" };
+
+export type NotesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type NotesQuery = {
+  __typename?: "Query";
+  notes?: {
+    __typename?: "NoteNodeConnection";
+    edges: Array<{
+      __typename?: "NoteNodeEdge";
+      node?:
+        | ({ __typename?: "NoteNode" } & {
+            " $fragmentRefs"?: { NoteFragment: NoteFragment };
+          })
+        | null;
+    } | null>;
+  } | null;
+};
+
 export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ProjectsQuery = {
@@ -585,29 +627,6 @@ export type ProjectsQuery = {
   } | null;
 };
 
-export const NoteFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "Note" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "NoteNode" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "title" } },
-          { kind: "Field", name: { kind: "Name", value: "content" } },
-          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
-          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<NoteFragment, unknown>;
 export const ProjectFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -631,50 +650,9 @@ export const ProjectFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<ProjectFragment, unknown>;
-export const NotesDocument = {
+export const NoteFragmentDoc = {
   kind: "Document",
   definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "Notes" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "notes" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "edges" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "node" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "FragmentSpread",
-                              name: { kind: "Name", value: "Note" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
     {
       kind: "FragmentDefinition",
       name: { kind: "Name", value: "Note" },
@@ -694,7 +672,184 @@ export const NotesDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<NotesQuery, NotesQueryVariables>;
+} as unknown as DocumentNode<NoteFragment, unknown>;
+export const RegisterMutationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "RegisterMutation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "CreateUserInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "createUser" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "firstName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "lastName" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  RegisterMutationMutation,
+  RegisterMutationMutationVariables
+>;
+export const LoginMutationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "LoginMutation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "email" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "password" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "tokenAuth" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "email" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "email" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "password" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "password" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "token" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  LoginMutationMutation,
+  LoginMutationMutationVariables
+>;
+export const MeDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "Me" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "me" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "isActive" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
 export const CreateProjectDocument = {
   kind: "Document",
   definitions: [
@@ -863,6 +1018,70 @@ export const UpdateProjectDocument = {
   UpdateProjectMutation,
   UpdateProjectMutationVariables
 >;
+export const NotesDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "Notes" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "notes" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "Note" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Note" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "NoteNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "content" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NotesQuery, NotesQueryVariables>;
 export const ProjectsDocument = {
   kind: "Document",
   definitions: [
