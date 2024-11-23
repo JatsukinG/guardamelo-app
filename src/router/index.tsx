@@ -6,16 +6,23 @@ import HomePage from '@/pages/main/home'
 import LoginPage from '@/pages/auth/login'
 import ProjectsPage from '@/pages/projects'
 import ResourcesPage from '@/pages/resources'
-import ProjectPage from '@/pages/projects/project'
+import NotesPage from '@/pages/projects/notes'
+import MeProvider from '@auth/contexts/MeProvider'
+import NotePage from '@/pages/projects/notes/note'
 import ResourcePage from '@/pages/resources/resource'
+import AuthProvider from '@auth/contexts/AuthProvider'
+import ProtectedRoutes from '@/router/ProtectedRoutes'
+import CreateNotePage from '@/pages/projects/notes/create'
 
 const router = createBrowserRouter([
   {
     path: 'auth',
     element: (
-        <AuthLayout>
-          <Outlet/>
-        </AuthLayout>
+        <AuthProvider>
+          <AuthLayout>
+            <Outlet/>
+          </AuthLayout>
+        </AuthProvider>
     ),
     children: [
       {
@@ -27,9 +34,13 @@ const router = createBrowserRouter([
   {
     path: '',
     element: (
-        <MainLayout>
-          <Outlet/>
-        </MainLayout>
+        <AuthProvider>
+          <MeProvider>
+            <MainLayout>
+              <ProtectedRoutes/>
+            </MainLayout>
+          </MeProvider>
+        </AuthProvider>
     ),
     children: [
       {
@@ -37,7 +48,7 @@ const router = createBrowserRouter([
         element: <HomePage/>,
       },
       {
-        path: '/projects',
+        path: 'projects',
         children: [
           {
             path: '',
@@ -45,7 +56,25 @@ const router = createBrowserRouter([
           },
           {
             path: ':id',
-            element: <ProjectPage/>,
+            children: [
+              {
+                path: 'notes',
+                children: [
+                  {
+                    path: '',
+                    element: <NotesPage/>,
+                  },
+                  {
+                    path: ':id',
+                    element: <NotePage/>,
+                  },
+                  {
+                    path: 'create',
+                    element: <CreateNotePage/>,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

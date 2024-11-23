@@ -2,10 +2,11 @@ import type { IconType } from 'react-icons'
 import { FaHome } from 'react-icons/fa'
 import { Sidebar } from 'flowbite-react'
 import { TbLogin2 } from 'react-icons/tb'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { IoIosSettings } from 'react-icons/io'
 import { MdLibraryBooks } from 'react-icons/md'
 import { GoFileDirectoryFill } from 'react-icons/go'
+import { useAuth } from '@auth/hooks'
 import SidebarLink from '@/layouts/main/components/sidebar/SidebarLink'
 
 interface Item {
@@ -38,8 +39,8 @@ const items: Item[] = [
 ]
 
 const MainSidebar = () => {
-  const navigate = useNavigate()
   const location = useLocation()
+  const { logout } = useAuth()
 
   return (
       <Sidebar>
@@ -63,9 +64,9 @@ const MainSidebar = () => {
         <Sidebar.CTA>
           <button
               className="text-gray-500 font-bold flex items-center"
-              onClick={() => navigate('/auth/login')}>
+              onClick={logout}>
             <TbLogin2 className="me-2" size={24}/>
-            <span>Iniciar sesión</span>
+            <span>Cerrar sesión</span>
           </button>
         </Sidebar.CTA>
       </Sidebar>

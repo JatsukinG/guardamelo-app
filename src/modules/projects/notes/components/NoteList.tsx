@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { MdFolder } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useFragment } from '@gql'
 import NotesQuery from '@projects/notes/queries/NotesQuery'
 import NoteFragment from '@projects/notes/fragments/NoteFragment'
 
 const NoteList = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { data, loading } = useQuery(NotesQuery)
   const notes = data?.notes?.edges.map(noteEdge => useFragment(NoteFragment, noteEdge?.node)) ?? []
 
@@ -18,7 +19,7 @@ const NoteList = () => {
                 <li key={note?.id} className="py-2">
                   <button
                       className="link flex items-center gap-2"
-                      onClick={() => navigate(`/notes/${note?.id}`)}
+                      onClick={() => navigate(`${location.pathname}/${note?.id}`)}
                   >
                     <MdFolder/>
                     {note?.title}
