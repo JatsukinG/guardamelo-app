@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { MdFolder } from 'react-icons/md'
+import { IoDocumentText } from 'react-icons/io5'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useFragment } from '@gql'
 import NotesQuery from '@projects/notes/queries/NotesQuery'
@@ -8,7 +8,9 @@ import NoteFragment from '@projects/notes/fragments/NoteFragment'
 const NoteList = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { data, loading } = useQuery(NotesQuery)
+  const { data, loading } = useQuery(NotesQuery, {
+    fetchPolicy: 'cache-first',
+  })
   const notes = data?.notes?.edges.map(noteEdge => useFragment(NoteFragment, noteEdge?.node)) ?? []
 
   return (
@@ -21,7 +23,7 @@ const NoteList = () => {
                       className="link flex items-center gap-2"
                       onClick={() => navigate(`${location.pathname}/${note?.id}`)}
                   >
-                    <MdFolder/>
+                    <IoDocumentText/>
                     {note?.title}
                   </button>
                 </li>

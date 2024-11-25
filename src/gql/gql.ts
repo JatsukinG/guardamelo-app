@@ -28,6 +28,8 @@ const documents = {
     types.UpdateProjectDocument,
   "\n  fragment Note on NoteNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n":
     types.NoteFragmentDoc,
+  "\n  mutation CreateNote($input: CreateNoteInput!) {\n    createNote(input: $input) {\n      note {\n        ...Note\n      }\n    }\n  }\n":
+    types.CreateNoteDocument,
   "\n  query Notes {\n    notes {\n      edges {\n        node {\n          ...Note\n        }\n      }\n    }\n  }\n":
     types.NotesDocument,
   "\n  query Projects {\n    projects {\n      edges {\n        node {\n          ...Project\n        }\n      }\n    }\n  }\n":
@@ -90,6 +92,12 @@ export function graphql(
 export function graphql(
   source: "\n  fragment Note on NoteNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n",
 ): (typeof documents)["\n  fragment Note on NoteNode {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation CreateNote($input: CreateNoteInput!) {\n    createNote(input: $input) {\n      note {\n        ...Note\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation CreateNote($input: CreateNoteInput!) {\n    createNote(input: $input) {\n      note {\n        ...Note\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -55,7 +55,7 @@ const router = createBrowserRouter([
             element: <ProjectsPage/>,
           },
           {
-            path: ':id',
+            path: ':projectId',
             children: [
               {
                 path: 'notes',
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
                     element: <NotesPage/>,
                   },
                   {
-                    path: ':id',
+                    path: ':noteId',
                     element: <NotePage/>,
                   },
                   {
