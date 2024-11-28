@@ -1,26 +1,34 @@
-import { type FC, useState } from 'react'
-import MDEditor from '@uiw/react-md-editor'
+import '@toast-ui/editor/dist/toastui-editor.css'
+import { Editor } from '@toast-ui/react-editor'
+import { type FC, useRef } from 'react'
+import './styles.css'
 
 interface Props {
   onChange?: (content: string) => void
 }
 
-
 const MarkdownEditor: FC<Props> = ({ onChange }) => {
-  const [content, setContent] = useState<string>('')
+  const editorRef = useRef<any>(null)
 
-  const handleEditorChange = (value: string | undefined) => {
-    setContent(value ?? '')
-    value && onChange?.(value)
+  const handleChange = () => {
+    if (editorRef.current) {
+      const instance = editorRef.current.getInstance()
+      const markdown = instance.getMarkdown()
+      onChange?.(markdown)
+    }
   }
 
   return (
-      <MDEditor
-          value={content}
-          onChange={handleEditorChange}
-          height={400}
-          preview="edit"
-          draggable={false}
+      <Editor
+          ref={editorRef}
+          initialValue=""
+          height="600px"
+          initialEditType="wysiwyg"
+          frontMatter={true}
+          useCommandShortcut={true}
+          events={{
+            change: handleChange,
+          }}
       />
   )
 }

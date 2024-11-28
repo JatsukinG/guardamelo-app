@@ -1,0 +1,20 @@
+.toastui-editor-defaultUI {
+    @apply border-none
+}
+
+.toastui-editor {
+    @apply bg-white rounded-md
+}
+
+.toastui-editor-toolbar {
+    @apply bg-transparent border-none overflow-hidden
+}
+
+.toastui-editor-defaultUI-toolbar {
+    @apply bg-purple-100 rounded-md
+}
+
+
+.toastui-editor-toolbar button {
+    color: #f50000;
+}

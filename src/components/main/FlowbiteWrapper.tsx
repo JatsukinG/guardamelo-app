@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from 'react'
 import { useEffect } from 'react'
-import { Flowbite, useThemeMode } from 'flowbite-react'
 import theme from '@/flowbite-theme'
+import { Flowbite, useThemeMode } from 'flowbite-react'
 
 const FlowbiteWrapper: FC<PropsWithChildren> = ({ children }) => {
   const dark = localStorage.getItem('theme') === 'dark'
