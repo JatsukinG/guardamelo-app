@@ -609,6 +609,19 @@ export type CreateNoteMutation = {
   } | null;
 };
 
+export type NoteQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+}>;
+
+export type NoteQuery = {
+  __typename?: "Query";
+  note?:
+    | ({ __typename?: "NoteNode" } & {
+        " $fragmentRefs"?: { NoteFragment: NoteFragment };
+      })
+    | null;
+};
+
 export type NotesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type NotesQuery = {
@@ -1115,6 +1128,72 @@ export const CreateNoteDocument = {
     },
   ],
 } as unknown as DocumentNode<CreateNoteMutation, CreateNoteMutationVariables>;
+export const NoteDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "Note" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "note" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "Note" },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "Note" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "NoteNode" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "content" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NoteQuery, NoteQueryVariables>;
 export const NotesDocument = {
   kind: "Document",
   definitions: [

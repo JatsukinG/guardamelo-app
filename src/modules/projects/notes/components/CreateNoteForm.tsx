@@ -1,3 +1,4 @@
+import type { NoteNodeEdge } from '@types'
 import * as Yup from 'yup'
 import toast from 'react-hot-toast'
 import { Button } from 'flowbite-react'
@@ -16,6 +17,7 @@ interface Values {
   title: string
   content: string
 }
+
 
 const CreateNoteForm = () => {
   const { projectId } = useParams()
@@ -67,8 +69,8 @@ const CreateNoteForm = () => {
                   __typename: 'NoteNodeEdge',
                   node: { ...useFragment(NoteFragment, newNote) },
                 },
-                ...oldData?.notes?.edges,
-              ],
+                ...oldData?.notes?.edges ?? [],
+              ] as NoteNodeEdge[],
             },
           }))
         },
