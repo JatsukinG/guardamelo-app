@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 import clsx from 'clsx'
 import StarterKit from '@tiptap/starter-kit'
+import { Link } from '@tiptap/extension-link'
 import { EditorContent, useEditor } from '@tiptap/react'
 import EditorToolbar from '@/components/editor/EditorToolbar'
 
@@ -36,6 +37,14 @@ const Editor: FC<Props> = ({ onChange }) => {
           HTMLAttributes: {
             class: 'text-sm bg-gray-100 text-gray-800 rounded p-4 font-mono',
           },
+        },
+      }),
+      Link.configure({
+        autolink: true,
+        linkOnPaste: true,
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'link',
         },
       }),
     ],
