@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import type { FieldProps } from 'formik'
-import { MarkdownEditor } from '@components'
+import { Editor } from '@components'
 
 interface NoteEditorProps extends FieldProps {
   label?: string;
@@ -14,7 +14,7 @@ const NoteEditorField: FC<NoteEditorProps> = ({ field, form, label }) => {
   return (
       <div className="w-full mt-6">
         {label && <h4 className="font-bold mb-4">{label}</h4>}
-        <MarkdownEditor onChange={handleEditorChange}/>
+        <Editor onChange={handleEditorChange}/>
       </div>
   )
 }
