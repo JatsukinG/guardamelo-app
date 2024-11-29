@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import { Navigate } from 'react-router-dom'
 import Me from '@auth/queries/Me'
 import { useAuth } from '@auth/hooks'
+import { LoadingPage } from '@components'
 import MeContext from '@auth/contexts/MeContext'
 
 const MeProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -29,7 +30,7 @@ const MeProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
       <MeContext.Provider value={data?.me as UserNode}>
-        {canRenderChildren && children}
+        {canRenderChildren ? children : <LoadingPage/>}
       </MeContext.Provider>
   )
 }
