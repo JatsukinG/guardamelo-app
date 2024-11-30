@@ -9,6 +9,7 @@ interface Props {
   onChange?: (content: string) => void
 }
 
+
 const Editor: FC<Props> = ({ onChange }) => {
   const editor = useEditor({
     extensions: [
@@ -30,12 +31,12 @@ const Editor: FC<Props> = ({ onChange }) => {
         },
         code: {
           HTMLAttributes: {
-            class: 'text-sm bg-gray-100 text-gray-800 rounded px-1 font-mono',
+            class: 'text-sm bg-gray-200 text-gray-800 rounded px-1 font-mono',
           },
         },
         codeBlock: {
           HTMLAttributes: {
-            class: 'text-sm bg-gray-100 text-gray-800 rounded p-4 font-mono',
+            class: 'text-sm bg-gray-200 text-gray-800 rounded p-4 font-mono',
           },
         },
       }),
@@ -62,7 +63,7 @@ const Editor: FC<Props> = ({ onChange }) => {
   return (
       <div>
         <EditorToolbar editor={editor}/>
-        <div className="bg-white p-4 min-h-96 max-h-96 flex flex-col overflow-auto">
+        <div className="bg-white p-4 min-h-96 max-h-96 flex flex-col rounded-md overflow-auto">
           <EditorContent
               editor={editor}
               className={clsx([
