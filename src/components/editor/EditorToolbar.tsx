@@ -1,22 +1,26 @@
 import type { FC } from 'react'
 import type { Editor } from '@tiptap/react'
 import clsx from 'clsx'
+import { Popover } from 'flowbite-react'
 import { BsTypeH2 } from 'react-icons/bs'
 import { PiCodeBlockBold } from 'react-icons/pi'
-import { FaBold, FaCode, FaItalic, FaListOl, FaListUl } from 'react-icons/fa'
+import EditorUrlForm from '@/components/editor/EditorUrlForm'
+import { FaBold, FaCode, FaItalic, FaLink, FaListOl, FaListUl } from 'react-icons/fa'
 
 interface Props {
   editor: Editor
 }
 
+const buttonClass = (isActive: boolean) =>
+    clsx(
+        'px-2 py-1 rounded transition-colors duration-200',
+        isActive ? 'bg-purple-800 text-white' : 'bg-white text-gray-800 hover:bg-purple-200',
+    )
+
+
 const EditorToolbar: FC<Props> = ({ editor }) => {
   if (!editor) return null
 
-  const buttonClass = (isActive: boolean) =>
-      clsx(
-          'px-2 py-1 rounded transition-colors duration-200',
-          isActive ? 'bg-purple-800 text-white' : 'bg-white text-gray-800 hover:bg-purple-200',
-      )
 
   return (
       <div className="flex flex-wrap space-x-2 mb-4 bg-purple-100 p-2 rounded">
@@ -69,6 +73,21 @@ const EditorToolbar: FC<Props> = ({ editor }) => {
         >
           <FaListOl/>
         </button>
+        <Popover
+            trigger="click"
+            content={(
+                <div className="w-full p-4">
+                  <EditorUrlForm onSubmit={(url) => editor.chain().focus().toggleLink({ href: url }).run()}/>
+                </div>
+            )}
+        >
+          <button
+              type="button"
+              className={buttonClass(editor.isActive('link'))}
+          >
+            <FaLink/>
+          </button>
+        </Popover>
       </div>
   )
 }

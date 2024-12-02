@@ -31,10 +31,14 @@ const client = new ApolloClient({
       Query: {
         fields: {
           projects: relayStylePagination([]),
-        }
-      }
-    }
+          notes: relayStylePagination([]),
+        },
+      },
+    },
   }),
+  devtools: {
+    enabled: true,
+  },
 })
 
 export default client

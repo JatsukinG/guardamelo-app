@@ -1,8 +1,8 @@
 import { graphql } from '@gql'
 
 const NotesQuery = graphql(`
-  query Notes {
-    notes {
+  query Notes($projectId: String!) {
+    notes(projectId: $projectId) {
       edges {
         node {
           ...Note

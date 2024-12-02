@@ -1,16 +1,14 @@
 import type { FC } from 'react'
 import clsx from 'clsx'
 import StarterKit from '@tiptap/starter-kit'
-import { Link } from '@tiptap/extension-link'
 import { EditorContent, useEditor } from '@tiptap/react'
-import EditorToolbar from '@/components/editor/EditorToolbar'
 
 interface Props {
-  onChange?: (content: string) => void
+  content: string
 }
 
 
-const Editor: FC<Props> = ({ onChange }) => {
+const EditorViewer: FC<Props> = ({ content }) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -40,20 +38,9 @@ const Editor: FC<Props> = ({ onChange }) => {
           },
         },
       }),
-      Link.configure({
-        autolink: true,
-        linkOnPaste: true,
-        openOnClick: false,
-        HTMLAttributes: {
-          class: 'link',
-        },
-      }),
     ],
-    autofocus: 'end',
-    onUpdate: ({ editor }) => {
-      const content = editor.getHTML()
-      onChange?.(content)
-    },
+    content: content,
+    editable: false,
   })
 
   if (!editor) {
@@ -61,19 +48,14 @@ const Editor: FC<Props> = ({ onChange }) => {
   }
 
   return (
-      <div>
-        <EditorToolbar editor={editor}/>
-        <div className="bg-white p-4 min-h-96 max-h-96 flex flex-col rounded-md overflow-auto">
-          <EditorContent
-              editor={editor}
-              className={clsx([
-                'flex-grow prose lg:prose-xl h-full flex flex-col rounded',
-                '[&>div]:flex-grow [&>div]:outline-none',
-              ])}
-          />
-        </div>
-      </div>
+      <EditorContent
+          editor={editor}
+          className={clsx([
+            'flex-grow prose lg:prose-xl h-full flex flex-col rounded',
+            '[&>div]:flex-grow [&>div]:outline-none',
+          ])}
+      />
   )
 }
 
-export default Editor
+export default EditorViewer
