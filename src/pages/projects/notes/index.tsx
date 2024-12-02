@@ -2,11 +2,15 @@ import { MainCard } from '@components'
 import NoteList from '@projects/notes/components/NoteList'
 import { Button } from 'flowbite-react'
 import { IoMdAddCircle } from 'react-icons/io'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 const NotesPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const { projectId } = useParams()
+
+  if (!projectId)
+    throw new Error('Invalid Project ID')
 
   return (
       <div className="px-4">
@@ -24,7 +28,7 @@ const NotesPage = () => {
               Agregar nota
             </Button>
           </div>
-          <NoteList/>
+          <NoteList key={projectId} projectId={projectId}/>
         </MainCard>
       </div>
   )
