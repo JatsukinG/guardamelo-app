@@ -1,3 +1,4 @@
+import type { FC } from 'react'
 import { useQuery } from '@apollo/client'
 import { IoDocumentText } from 'react-icons/io5'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -5,13 +6,25 @@ import { useFragment } from '@gql'
 import NotesQuery from '@projects/notes/queries/NotesQuery'
 import NoteFragment from '@projects/notes/fragments/NoteFragment'
 
-const NoteList = () => {
+interface Props {
+  projectId: string
+}
+
+
+const NoteList: FC<Props> = ({ projectId }) => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { data, loading } = useQuery(NotesQuery, {
-    fetchPolicy: 'cache-first',
+
+  const { data, loading, error } = useQuery(NotesQuery, {
+    variables: {
+      projectId: projectId,
+    },
+    // TODO check if this is the correct way
+    fetchPolicy: 'network-only',
   })
   const notes = data?.notes?.edges.map(noteEdge => useFragment(NoteFragment, noteEdge?.node)) ?? []
+
+  if (error) return <p>Create an error component...</p>
 
   return (
       <div>

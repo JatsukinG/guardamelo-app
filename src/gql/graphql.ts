@@ -162,6 +162,7 @@ export type Mutation = {
   /** Obtain JSON Web Token mutation */
   tokenAuth?: Maybe<ObtainJsonWebToken>;
   updateNote?: Maybe<UpdateNotePayload>;
+  updateNoteVisibility?: Maybe<UpdateNoteVisibilityPayload>;
   updateProject?: Maybe<UpdateProjectPayload>;
   updateResource?: Maybe<UpdateResourcePayload>;
   updateUser?: Maybe<UpdateMePayload>;
@@ -213,6 +214,10 @@ export type MutationUpdateNoteArgs = {
   input: UpdateNoteInput;
 };
 
+export type MutationUpdateNoteVisibilityArgs = {
+  input: UpdateNoteVisibilityInput;
+};
+
 export type MutationUpdateProjectArgs = {
   input: UpdateProjectInput;
 };
@@ -242,8 +247,19 @@ export type NoteNode = Node & {
   /** The ID of the object */
   id: Scalars["ID"]["output"];
   project: ProjectNode;
+  /** Users who can view this note if visibility is set to 'shared'. */
+  sharedWith: UserNodeConnection;
   title: Scalars["String"]["output"];
   updatedAt: Scalars["DateTime"]["output"];
+  visibility: ProjectsNoteVisibilityChoices;
+};
+
+export type NoteNodeSharedWithArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type NoteNodeConnection = {
@@ -299,9 +315,16 @@ export type ProjectNode = Node & {
 export type ProjectNodeNotesArgs = {
   after?: InputMaybe<Scalars["String"]["input"]>;
   before?: InputMaybe<Scalars["String"]["input"]>;
+  createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Gt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Gte?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Lt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Lte?: InputMaybe<Scalars["DateTime"]["input"]>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
   last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Scalars["String"]["input"]>;
+  title_Icontains?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type ProjectNodeConnection = {
@@ -321,6 +344,16 @@ export type ProjectNodeEdge = {
   node?: Maybe<ProjectNode>;
 };
 
+/** An enumeration. */
+export enum ProjectsNoteVisibilityChoices {
+  /** Privada */
+  Private = "PRIVATE",
+  /** Pública */
+  Public = "PUBLIC",
+  /** Compartida */
+  Shared = "SHARED",
+}
+
 export type Query = {
   __typename?: "Query";
   me?: Maybe<UserNode>;
@@ -339,9 +372,17 @@ export type QueryNoteArgs = {
 export type QueryNotesArgs = {
   after?: InputMaybe<Scalars["String"]["input"]>;
   before?: InputMaybe<Scalars["String"]["input"]>;
+  createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Gt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Gte?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Lt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Lte?: InputMaybe<Scalars["DateTime"]["input"]>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
   last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Scalars["String"]["input"]>;
+  projectId: Scalars["String"]["input"];
+  title_Icontains?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryProjectArgs = {
@@ -433,6 +474,19 @@ export type UpdateNotePayload = {
   note?: Maybe<NoteNode>;
 };
 
+export type UpdateNoteVisibilityInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["ID"]["input"];
+  sharedWith?: InputMaybe<Array<InputMaybe<Scalars["ID"]["input"]>>>;
+  visibility: Scalars["String"]["input"];
+};
+
+export type UpdateNoteVisibilityPayload = {
+  __typename?: "UpdateNoteVisibilityPayload";
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
+};
+
 export type UpdateProjectInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
@@ -478,6 +532,8 @@ export type UserNode = Node & {
   phone?: Maybe<Scalars["String"]["output"]>;
   projects: ProjectNodeConnection;
   resources: ResourceNodeConnection;
+  /** Users who can view this note if visibility is set to 'shared'. */
+  sharedNotes: NoteNodeConnection;
 };
 
 export type UserNodeProjectsArgs = {
@@ -494,6 +550,38 @@ export type UserNodeResourcesArgs = {
   first?: InputMaybe<Scalars["Int"]["input"]>;
   last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type UserNodeSharedNotesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Gt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Gte?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Lt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_Lte?: InputMaybe<Scalars["DateTime"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Scalars["String"]["input"]>;
+  title_Icontains?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type UserNodeConnection = {
+  __typename?: "UserNodeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<UserNodeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `UserNode` and its cursor. */
+export type UserNodeEdge = {
+  __typename?: "UserNodeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"]["output"];
+  /** The item at the end of the edge */
+  node?: Maybe<UserNode>;
 };
 
 export type Verify = {
@@ -622,7 +710,9 @@ export type NoteQuery = {
     | null;
 };
 
-export type NotesQueryVariables = Exact<{ [key: string]: never }>;
+export type NotesQueryVariables = Exact<{
+  projectId: Scalars["String"]["input"];
+}>;
 
 export type NotesQuery = {
   __typename?: "Query";
@@ -1201,12 +1291,38 @@ export const NotesDocument = {
       kind: "OperationDefinition",
       operation: "query",
       name: { kind: "Name", value: "Notes" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "projectId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
             name: { kind: "Name", value: "notes" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "projectId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "projectId" },
+                },
+              },
+            ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
